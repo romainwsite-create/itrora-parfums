@@ -1,0 +1,58 @@
+---
+// src/components/Perks.astro
+---
+<section class="perks" aria-label="Nos engagements">
+  <div class="perks-grid">
+    <article class="perk">
+      <div class="ico" aria-hidden="true">
+        <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M3 7h11v8H3z"/><path d="M14 10h4l3 3v2h-7V10z"/><circle cx="7" cy="17" r="2"/><circle cx="16" cy="17" r="2"/>
+        </svg>
+      </div>
+      <h3>Livraison gratuite</h3>
+      <p>Livraison point relais gratuite dès 70€ d’achat</p>
+    </article>
+
+    <article class="perk">
+      <div class="ico" aria-hidden="true">
+        <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M20 12v7H4v-7"/><path d="M4 10h16v2H4z"/><path d="M12 10s-2.5-1.8-2.5-3.5S11 4 12 5c1-1 2.5 0 2.5 1.5S12 10 12 10z"/>
+        </svg>
+      </div>
+      <h3>Parfum offert</h3>
+      <p>Dès 100€ d’achat, dans la limite des stocks disponibles</p>
+    </article>
+
+    <article class="perk">
+      <div class="ico" aria-hidden="true">
+        <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M12 12a5 5 0 1 0-5-5"/><path d="M3 21a7 7 0 0 1 14 0"/><circle cx="12" cy="7" r="3"/>
+        </svg>
+      </div>
+      <h3>Service client 24/24 – 7j/7</h3>
+      <p>Contactez-nous par téléphone ou par mail, à toute heure</p>
+    </article>
+
+    <article class="perk">
+      <div class="ico" aria-hidden="true">
+        <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M12 2l7 4v6c0 5-3.5 9-7 10-3.5-1-7-5-7-10V6l7-4z"/><path d="M9 12l2 2 4-4"/>
+        </svg>
+      </div>
+      <h3>Paiements sécurisés</h3>
+      <p>Vos paiements en ligne sont 100% protégés</p>
+    </article>
+  </div>
+</section>
+
+<style>
+  .perks, .perks *{ font-family:"Montserrat",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif; }
+  .perks{ padding:40px 0 56px; margin-top:16px; border-top:1px solid rgba(0,0,0,.08); }
+  .perks-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:24px; max-width:1200px; margin:0 auto; }
+  @media (max-width:1000px){ .perks-grid{ grid-template-columns:1fr 1fr; } }
+  @media (max-width:560px){ .perks-grid{ grid-template-columns:1fr; } }
+  .perk{ display:flex; flex-direction:column; align-items:center; gap:8px; text-align:center; padding:12px 14px; }
+  .perk .ico{ color:#ff6a3d; line-height:0; }
+  .perk h3{ font-weight:700; font-size:clamp(18px,2vw,22px); letter-spacing:.01em; margin:4px 0 2px; line-height:1.2; }
+  .perk p{ margin:0; color:#2e3b34; line-height:1.6; font-size:clamp(.92rem,1.1vw,1rem); }
+</style>

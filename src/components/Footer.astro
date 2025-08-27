@@ -1,0 +1,127 @@
+---
+// src/components/Footer.astro
+import { SITE_NAME, } from "../data/site";
+---
+<footer class="site-footer">
+  <div class="footer-grid">
+    <section class="footer-brand">
+      <div class="brand-top">
+        <img class="footer-logo" src="/logo-parfum.png" srcset="/logo-parfum.png 1x, /logo-parfum.png 2x" alt={SITE_NAME} width="180" height="45" />
+      </div>
+
+      <div class="brand-bottom">
+        <p class="sub">Maison française de parfums — matières nobles, lignes épurées.</p>
+
+        <div class="socials">
+          <a class="social" href="#" aria-label="Instagram">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="2.8" y="2.8" width="18.4" height="18.4" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.5" cy="6.5" r="1.2"/></svg>
+          </a>
+          <a class="social" href="#" aria-label="Facebook">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M15 3h-2.2a3.8 3.8 0 0 0-3.8 3.8V9H7v3h2v7h3v-7h2.5l.5-3H12V6.8c0-.44.36-.8.8-.8H15V3z"/></svg>
+          </a>
+          <a class="social" href="#" aria-label="TikTok">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 3h-2v9.1a3 3 0 1 1-2-2.8V7.6A6 6 0 1 0 17 13V8.7c1 .8 2.2 1.3 3.5 1.5V7.8A5.5 5.5 0 0 1 14 3z"/></svg>
+          </a>
+          <a class="social" href="#" aria-label="Snapchat">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 14c-1 2-3 1-3 2s2 1 3 2 1 3 6 3 5-2 6-3 3-1 3-2-2 0-3-2c0-1 1-2 1-4 0-3-2-6-7-6s-7 3-7 6c0 2 1 3 1 4Z"/></svg>
+          </a>
+        </div>
+
+        <div class="contact">
+          <p>Colombes (92700)</p>
+          <p><a href="mailto:contact@itrora.com" class="link">contact@itrora.com</a></p>
+          <p><a class="link" href="tel:+33650959363">06 50 95 93 63</a></p>
+        </div>
+      </div>
+    </section>
+
+    <nav class="footer-col" aria-label="Liens rapides">
+      <h4 class="footer-title">Liens rapides</h4>
+      <ul class="footer-list">
+        <li><a href="/">Accueil</a></li>
+        <li><a href="/collections">Les Parfums</a></li>
+      </ul>
+    </nav>
+
+    <nav class="footer-col" aria-label="Informations">
+      <h4 class="footer-title">Informations</h4>
+      <ul class="footer-list">
+        <li><a href="/a-propos">Notre histoire</a></li>
+        <li><a href="/foireauxquestions">FAQ</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <nav class="footer-col" aria-label="Légal">
+      <h4 class="footer-title">Legal</h4>
+      <ul class="footer-list">
+        <li><a href="/conditions-generales-de-vente">C.G.V</a></li>
+        <li><a href="/mentions-legales">Mentions légales</a></li>
+        <li><a href="/confidentialite">Confidentialité</a></li>
+        <li><a href="/politique-de-cookies">Politique de cookies</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="footer-bottom">
+    <small>© {new Date().getFullYear()} {SITE_NAME}. Tous droits réservés.</small>
+  </div>
+</footer>
+
+<style>
+  :root{ --ink:#2A2927; --muted:#64706A; --bd:rgba(0,0,0,.08); }
+  .site-footer{ background:#fff; color:var(--ink); padding:3rem 24px 2.5rem; border-top:1px solid var(--bd); }
+  .site-footer, .site-footer *{ font-family:"Montserrat",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif; }
+
+  .footer-grid{
+    max-width:1200px; margin:0 auto;
+    display:grid;
+    grid-template-columns:1.2fr 1fr 1fr 1fr;
+    grid-template-rows:auto 1fr;
+    column-gap:3rem; row-gap:1.8rem;
+    align-items:start;
+  }
+  .footer-brand{ display:contents; }
+  .brand-top{ grid-row:1; grid-column:1 / -1; justify-self:center; text-align:center; }
+  .footer-logo{ display:block; height:144px; width:auto; }
+  @media (max-width:1000px){ .footer-logo{ height:112px } }
+  @media (max-width:560px){  .footer-logo{ height:80px } }
+
+  .brand-bottom{ grid-row:2; grid-column:1 / 2; align-self:start; }
+  .footer-col{ grid-row:2; align-self:start; }
+
+  .sub{ opacity:.85; margin:.75rem 0 1rem; }
+  .socials{ display:flex; gap:.8rem; margin-top:1rem; }
+  .social{
+    width:48px; height:48px; display:grid; place-items:center; border-radius:50%;
+    background:#f6f5f4; color:var(--ink);
+    box-shadow:inset 0 0 0 1px var(--bd);
+    transition:filter .15s ease, transform .15s ease; text-decoration:none;
+  }
+  .social:hover{ filter:brightness(0.97); transform:translateY(-1px); }
+
+  .footer-title{ letter-spacing:.18em; text-transform:uppercase; color:var(--muted); font-weight:800; font-size:.9rem; margin:0 0 .9rem; }
+  .footer-list{ margin:0; padding:0; list-style:none; }
+  .footer-list li{ margin:.45rem 0; }
+  .footer-list a{ color:var(--ink); text-decoration:none; opacity:.9; }
+  .footer-list a:hover{ text-decoration:underline; }
+
+  .contact p{ margin:.35rem 0; }
+  .contact .link{ color:var(--ink); text-decoration:none; }
+  .contact .link:hover{ text-decoration:underline; }
+
+  .footer-bottom{
+    max-width:1200px; margin:2rem auto 0; padding-top:1rem;
+    display:flex; align-items:center; justify-content:flex-start; gap:1rem;
+    border-top:1px solid var(--bd); color:var(--muted);
+  }
+
+  @media (max-width:1000px){
+    .footer-grid{ grid-template-columns:1fr 1fr 1fr; }
+    .brand-bottom{ grid-column:1 / 4; }
+  }
+  @media (max-width:560px){
+    .footer-grid{ grid-template-columns:1fr; }
+    .brand-bottom{ grid-column:1; }
+  }
+</style>

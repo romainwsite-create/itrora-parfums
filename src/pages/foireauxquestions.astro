@@ -1,0 +1,310 @@
+---
+import Layout from "../layouts/Layout.astro";
+const pageTitle = "FAQ — Itrora Parfums";
+const pageDesc  = "Toutes les réponses sur vos commandes, livraisons, retours et nos parfums.";
+---
+
+<Layout title={pageTitle} description={pageDesc}>
+
+  <!-- HERO -->
+  <header class="hero" aria-label="En-tête de la page FAQ">
+    <div class="hero__wrap">
+      <h1 class="hero__title">
+        <span class="reveal">FAQ</span>
+      </h1>
+      <span class="hero__shine" aria-hidden="true"></span>
+    </div>
+  </header>
+
+  <!-- FAQ -->
+  <main class="faq" id="faq" aria-labelledby="faq-heading">
+    <h2 id="faq-heading" class="sr-only">Foire aux questions</h2>
+
+    <div class="faq-grid">
+      <!-- COLONNE 1 -->
+      <section class="col" aria-labelledby="bloc-cmd">
+        <h3 id="bloc-cmd" class="faq-title">Commandes & Livraison</h3>
+
+        <details class="item">
+          <summary>Quel est le statut de ma commande ?</summary>
+          <div class="answer">
+            <p>Après encaissement, la préparation prend en général 48&nbsp;h ouvrées. Vous recevrez un e-mail avec le numéro de suivi dès l’expédition.</p>
+          </div>
+        </details>
+
+        <details class="item">
+          <summary>Quels moyens de paiement acceptez-vous ?</summary>
+          <div class="answer">
+            <p>Virement bancaire et espèces (uniquement en retrait sur place). Pas de paiement CB en ligne à ce jour.</p>
+          </div>
+        </details>
+
+        <details class="item">
+          <summary>Que faire en cas de produit endommagé à la réception ?</summary>
+          <div class="answer">
+            <p>Émettez des réserves auprès du transporteur et contactez-nous sous 48&nbsp;h à <a href="mailto:contact@itrora.com">contact@itrora.com</a> avec photos du colis et du produit.</p>
+          </div>
+        </details>
+
+        <details class="item">
+          <summary>Je n’ai pas reçu le récapitulatif de ma commande.</summary>
+          <div class="answer">
+            <p>Vérifiez les spams. Sinon, écrivez-nous à <a href="mailto:contact@itrora.com">contact@itrora.com</a>, nous vous le renverrons.</p>
+          </div>
+        </details>
+
+        <details class="item">
+          <summary>Comment annuler une commande ou un article ?</summary>
+          <div class="answer">
+            <p>Avant expédition uniquement : contactez-nous rapidement. Une fois expédiée, utilisez le droit de rétractation (14&nbsp;jours, produits non ouverts).</p>
+          </div>
+        </details>
+
+        <details class="item">
+          <summary>Comment retourner un produit ?</summary>
+          <div class="answer">
+            <p>Retournez l’article <strong>non ouvert et scellé</strong> sous 14&nbsp;jours à : 6 rue des Vallées, 92700 Colombes. Les frais de retour sont à la charge du client.</p>
+          </div>
+        </details>
+
+        <details class="item">
+          <summary>Quels sont les délais et modalités de remboursement ?</summary>
+          <div class="answer">
+            <p>Remboursement sous 15&nbsp;jours après réception et vérification conforme du retour (hors frais de livraison initiaux le cas échéant).</p>
+          </div>
+        </details>
+
+        <details class="item">
+          <summary>Comment contacter le service client ?</summary>
+          <div class="answer">
+            <p>Par e-mail : <a href="mailto:contact@itrora.com">contact@itrora.com</a> • Tél. : <a href="tel:+33650959363">06&nbsp;50&nbsp;95&nbsp;93&nbsp;63</a> (lun–ven, 10h–18h).</p>
+          </div>
+        </details>
+      </section>
+
+      <!-- COLONNE 2 -->
+      <section class="col" aria-labelledby="bloc-parfums">
+        <h3 id="bloc-parfums" class="faq-title">Échantillons & Parfums</h3>
+
+        <details class="item">
+          <summary>Offrez-vous des échantillons&nbsp;?</summary>
+          <div class="answer">
+            <p>Selon disponibilités lors de certaines opérations. Suivez nos annonces sur le site et Instagram.</p>
+          </div>
+        </details>
+
+        <details class="item">
+          <summary>Qu’est-ce qu’un extrait de parfum&nbsp;?</summary>
+          <div class="answer">
+            <p>Concentration très élevée en matières odorantes, plus riche et plus tenace qu’une eau de parfum.</p>
+          </div>
+        </details>
+
+        <details class="item">
+          <summary>Vos parfums conviennent-ils à tous les types de peau&nbsp;?</summary>
+          <div class="answer">
+            <p>Oui, certains ingrédients “accrochent” toutefois différemment selon la peau. Essayez sur peau propre et hydratez bien.</p>
+          </div>
+        </details>
+
+        <details class="item">
+          <summary>Différence entre extrait de parfum et eau de parfum&nbsp;?</summary>
+          <div class="answer">
+            <p>L’extrait est plus concentré (sillage et tenue plus longs) ; l’EDP est plus diffus et aérien.</p>
+          </div>
+        </details>
+
+        <details class="item">
+          <summary>Comment choisir le parfum qui me convient&nbsp;?</summary>
+          <div class="answer">
+            <p>Pensez aux notes que vous aimez (floral, boisé, gourmand). Testez sur peau et laissez évoluer 2–3&nbsp;heures.</p>
+          </div>
+        </details>
+
+        <details class="item">
+          <summary>Fabrication</summary>
+          <div class="answer">
+            <p>Créations réalisées en petites séries, contrôle qualité manuel et conditionnement soigné.</p>
+          </div>
+        </details>
+
+        <details class="item">
+          <summary>Extrait de Parfum</summary>
+          <div class="answer">
+            <p>Nos références phares sont proposées en extrait pour une tenue prolongée et un sillage maîtrisé.</p>
+          </div>
+        </details>
+
+        <details class="item">
+  <summary>Offrez-vous des parfums ?</summary>
+  <div class="answer">
+    <p>Oui, à partir de <strong>100&nbsp;€</strong> d’achat.</p>
+  </div>
+</details>
+
+      </section>
+    </div>
+  </main>
+
+  <style>
+    /* Fonts (Montserrat + Playfair) */
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Montserrat:wght@400;600;700;800&display=swap');
+
+    :root{
+      --container: 1200px;
+      --gap: 36px;
+      --radius: 16px;
+
+      --ink:   #111;   /* noir titrage (hero) */
+      --text:  #2b2b2b;
+      --muted: #6f6a65;
+      --brand: #143b2f; /* vert foncé titres */
+      --accent:#e8613c; /* icône + / accent */
+      --bg:    #fff;
+    }
+
+    *{ box-sizing: border-box }
+    .sr-only{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0 }
+
+    /* ===== HERO ===== */
+    .hero{
+      background: var(--bg);
+      font-family: "Montserrat", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    }
+    .hero__wrap{
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 56px 20px 8px;
+      position: relative;
+    }
+    .hero__title{
+      position: relative;
+      display: inline-block;
+      font-family: "Montserrat", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      line-height: .95;
+      font-size: clamp(48px, 10vw, 120px);
+      color: var(--ink);
+    }
+    .hero__title .reveal{
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(18px) scale(.98);
+      animation: titleIn .7s cubic-bezier(.2,.9,.2,1) .05s forwards;
+    }
+    .hero__title::after{
+      content:"";
+      position:absolute; left:0; bottom:-12px;
+      height:10px; width:0; border-radius:999px;
+      background: linear-gradient(90deg, rgba(0,0,0,.15), rgba(0,0,0,.9));
+      animation: underline 1s cubic-bezier(.2,.9,.2,1) .45s forwards;
+    }
+    .hero__shine{
+      position:absolute; inset:-6px 0 0 0; pointer-events:none;
+      background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,.6) 30%, transparent 60%);
+      background-size:200% 100%;
+      mix-blend-mode: overlay; opacity:0;
+      animation: shine 2.2s ease-out .6s forwards;
+    }
+
+    @keyframes titleIn { to { opacity:1; transform: translateY(0) scale(1); } }
+    @keyframes underline { to { width:100%; } }
+    @keyframes shine {
+      0% { background-position:120% 0; opacity:0; }
+      25%{ opacity:1; }
+      100%{ background-position:-20% 0; opacity:0; }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      .hero__title .reveal,
+      .hero__title::after,
+      .hero__shine{ animation: none !important; opacity: 1; transform: none }
+      .hero__title::after{ width: 100% }
+    }
+
+    /* ===== FAQ ===== */
+    .faq{
+      padding: 36px 20px 64px;
+      color: var(--text);
+      font-family: "Montserrat", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--bg);
+    }
+    .faq-grid{
+      max-width: var(--container);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--gap);
+      align-items: start;
+    }
+    @media (max-width: 980px){
+      .faq-grid{ grid-template-columns: 1fr }
+    }
+
+    .faq-title{
+      font-family: "Playfair Display", serif;
+      color: var(--brand);
+      font-weight: 700;
+      font-size: clamp(28px, 3.6vw, 46px);
+      margin: 0 0 8px;
+    }
+
+    /* Item */
+    .item{
+      border-bottom: 1px solid rgba(0,0,0,.08);
+      padding: 12px 0;
+    }
+    .item:first-of-type{
+      border-top: 1px solid rgba(0,0,0,.08);
+    }
+
+    .item > summary{
+      list-style: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 16px 2px;
+      font-weight: 600;
+      color: var(--text);
+      outline: none;
+      border-radius: 10px;
+    }
+    /* focus clavier visible */
+    .item > summary:focus-visible{
+      box-shadow: 0 0 0 3px rgba(20,59,47,.18);
+    }
+
+    /* Icône */
+    .item > summary::after{
+      content: "+";
+      font-size: 24px;
+      line-height: 1;
+      color: var(--accent);
+      transition: transform .2s ease, color .2s ease;
+    }
+    .item[open] > summary::after{
+      content: "–";
+      transform: rotate(180deg);
+      color: var(--accent);
+    }
+    .item > summary:hover{ color: #1e1e1e }
+    .item > summary::-webkit-details-marker{ display:none }
+
+    .answer{
+      padding: 0 0 14px;
+      color: var(--muted);
+      line-height: 1.65;
+      animation: fadeIn .25s ease;
+    }
+    .answer a{ color: var(--brand); text-decoration: underline }
+
+    @keyframes fadeIn{
+      from{ opacity: 0; transform: translateY(-4px) }
+      to{ opacity: 1; transform: translateY(0) }
+    }
+  </style>
+</Layout>

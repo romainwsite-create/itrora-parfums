@@ -1,22 +1,27 @@
-<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
-</html>
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>
+---
+// src/layouts/Layout.astro
+import Footer from "../components/Footer.astro";
+import Perks from "../components/Perks.astro";
+
+const {
+  title = "Itrora Parfums",
+  description = "Maison Itrora Parfums : matières nobles, lignes épurées.",
+  showPerks = true,    // <- tu peux désactiver les cartes sur une page si besoin
+} = Astro.props;
+---
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <!-- Montserrat partout -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <slot />               <!-- contenu propre à la page -->
+    {showPerks && <Perks />}<!-- les 4 cartes magnétiques -->
+    <Footer />              <!-- pied de page global -->
+  </body>
+</html>
