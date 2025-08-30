@@ -1,0 +1,10 @@
+{
+  "redirects": [
+    { "source": "/foireauxquestions",  "destination": "/faq", "permanent": true },
+    { "source": "/foireauxquestions/", "destination": "/faq", "permanent": true },
+    { "source": "/FAQ", "destination": "/faq", "permanent": true },
+    { "source": "/Faq", "destination": "/faq", "permanent": true },
+    { "source": "/Contact", "destination": "/contact", "permanent": true },
+    { "source": "/CONTACT", "destination": "/contact", "permanent": true }
+  ]
+}
