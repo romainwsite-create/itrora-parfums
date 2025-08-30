@@ -267,7 +267,7 @@ const RELATED = [
 </div>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  // ====== GALERIE ======
+  /* ====== GALERIE ====== */
   const gal = document.querySelector("[data-gallery]");
   if (gal) {
     const mainImg = gal.querySelector("[data-main]");
@@ -290,7 +290,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (next) next.addEventListener("click", () => setActive(index + 1));
   }
 
-  // ====== ONGLETS ======
+  /* ====== ONGLETS ====== */
   const tabsRoot = document.querySelector("[data-tabs]");
   if (tabsRoot) {
     const tabs = Array.from(tabsRoot.querySelectorAll("[role='tab']"));
@@ -306,28 +306,32 @@ document.addEventListener("DOMContentLoaded", () => {
     tabs.forEach(t => t.addEventListener("click", () => activate(t.dataset.tab)));
   }
 
-  // ====== MINI-BAR (achat rapide au scroll) ======
+  /* ====== MINI-BAR (achat rapide) ====== */
   const mini = document.querySelector("[data-mini-bar]");
   if (mini) {
-    const showMini = () => mini.classList.add("is-visible");
-    const hideMini = () => mini.classList.remove("is-visible");
+    const showMini = () => {
+      mini.classList.add("is-visible");
+      document.body.classList.add("has-mini");
+    };
+    const hideMini = () => {
+      mini.classList.remove("is-visible");
+      document.body.classList.remove("has-mini");
+    };
 
-    // Affiche la mini-bar quand la zone des onglets est dépassée
     const tabsSection = document.querySelector(".tabs");
     if (tabsSection && "IntersectionObserver" in window) {
       const io = new IntersectionObserver(([e]) => {
-        if (e.isIntersecting) hideMini(); else showMini();
+        e.isIntersecting ? hideMini() : showMini();
       }, { rootMargin: "0px", threshold: 0 });
       io.observe(tabsSection);
     } else {
-      // Fallback simple
       window.addEventListener("scroll", () => {
         const y = tabsSection ? tabsSection.getBoundingClientRect().top : 9999;
         (y < 0) ? showMini() : hideMini();
       });
     }
 
-    // +/- quantité
+    // +/- quantité (une seule fois, et DANS le if)
     const qtyInput = mini.querySelector("[data-qty]");
     mini.querySelectorAll(".mini-step").forEach(btn => {
       btn.addEventListener("click", () => {
@@ -338,7 +342,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ====== LIENS WHATSAPP (si besoin de recâbler dynamiquement) ======
+  /* ====== LIENS WHATSAPP ====== */
   const WHATSAPP_PHONE = "33650959363";
   const waUrl = (name, price) =>
     `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
@@ -353,7 +357,6 @@ document.addEventListener("DOMContentLoaded", () => {
       "Bonjour, je souhaite en savoir plus sur la nouvelle collection Itrora Parfums."
     )}`;
 
-  // Produit courant (on lit depuis le DOM)
   const prodNameEl = document.querySelector("h1");
   const prodPriceEl = document.querySelector(".price");
   const prodImgEl = document.querySelector("[data-main]");
@@ -363,46 +366,34 @@ document.addEventListener("DOMContentLoaded", () => {
     image: prodImgEl ? prodImgEl.getAttribute("src") : ""
   };
 
-  // Bouton principal "Je veux acheter"
   document.querySelectorAll(".btn").forEach(a => {
-    if (a.textContent.trim().toLowerCase().includes("je veux acheter")) {
+    const txt = a.textContent.trim().toLowerCase();
+    if (txt.includes("je veux acheter")) {
       a.setAttribute("href", waUrl(PROD.name, PROD.price));
-      a.setAttribute("target", "_blank");
-      a.setAttribute("rel", "noopener");
+      a.setAttribute("target", "_blank"); a.setAttribute("rel", "noopener");
     }
-    if (a.textContent.trim().toLowerCase().includes("poser une question")) {
+    if (txt.includes("poser une question")) {
       a.setAttribute("href", waInfoUrl(PROD.name));
-      a.setAttribute("target", "_blank");
-      a.setAttribute("rel", "noopener");
+      a.setAttribute("target", "_blank"); a.setAttribute("rel", "noopener");
     }
   });
 
-  // Mini-bar CTA
   const miniBuy = document.querySelector("[data-mini-buy]");
   if (miniBuy) {
     miniBuy.setAttribute("href", waUrl(PROD.name, PROD.price));
-    miniBuy.setAttribute("target", "_blank");
-    miniBuy.setAttribute("rel", "noopener");
+    miniBuy.setAttribute("target", "_blank"); miniBuy.setAttribute("rel", "noopener");
   }
 
-  // Produits similaires
   document.querySelectorAll(".rel-card").forEach(card => {
     const name = card.querySelector(".rel-title")?.textContent.trim() || "";
     const price = card.querySelector(".rel-price")?.textContent.trim() || "";
-    const btn = card.querySelector(".rel-btn");
-    if (btn) {
-      btn.setAttribute("href", waUrl(name, price));
-      btn.setAttribute("target", "_blank");
-      btn.setAttribute("rel", "noopener");
-    }
+    card.querySelector(".rel-btn")?.setAttribute("href", waUrl(name, price));
   });
 
-  // WhatsApp du footer
   const footerWa = document.querySelector('footer .social[aria-label="WhatsApp"]');
   if (footerWa) {
     footerWa.setAttribute("href", waFooterUrl);
-    footerWa.setAttribute("target", "_blank");
-    footerWa.setAttribute("rel", "noopener");
+    footerWa.setAttribute("target", "_blank"); footerWa.setAttribute("rel", "noopener");
   }
 });
 </script>
@@ -755,4 +746,56 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     .brand-bottom{ grid-column: 1; }
   }
+
+  /* ===== Mobile polish (ne change rien sur desktop) ===== */
+:root{ --miniH: 72px; } /* hauteur approx de la mini-barre */
+
+@media (max-width: 700px){
+  /* Quand la mini-barre est visible, on garde de la place en bas */
+  body.has-mini {
+    padding-bottom: calc(var(--miniH) + max(8px, env(safe-area-inset-bottom)));
+  }
+
+  /* Mini-barre : petite respiration pour l'encoche iOS */
+  .mini-bar{
+    padding-bottom: max(8px, env(safe-area-inset-bottom));
+  }
+
+  /* Le bloc CTA sous le prix : passe en “pile” propres */
+  .cta{
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .cta .btn{
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Grille des notes olfactives : 1 colonne lisible */
+  .notes header,
+  .notes .row{
+    grid-template-columns: 1fr;
+  }
+  .notes header div,
+  .notes .row div{ padding: .8rem 1rem; }
+
+  /* Galerie : vignettes un peu plus grandes et flèches plus petites */
+  .thumbs{ gap: 8px; }
+  .g-nav{ width:34px; height:34px; }
+
+  /* Cartes “features” : image moins haute pour éviter le scroll vide */
+  .f-card{ grid-template-rows: auto 140px 1fr; padding:22px 18px; }
+  .f-img{ max-height:140px; }
+
+  /* Espace en bas des sections proches du footer pour éviter recouvrement */
+  .related, .perks{
+    padding-bottom: 72px; /* même valeur que --miniH */
+  }
+}
+
+/* Petit lissage pour les longs titres sur mobile */
+@media (max-width: 380px){
+  h1{ font-size: clamp(28px, 8vw, 34px); }
+}
+
 </style>
