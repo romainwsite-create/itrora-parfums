@@ -197,6 +197,73 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
         .site-footer{padding:28px var(--gutter) 24px;}
         .site-footer .social{width:42px; height:42px;}
       }
+
+      /* ===== MOBILE TWEAKS ===== */
+@media (max-width: 700px){
+  html, body{max-width:100%; overflow-x:hidden;}
+  :root{ --gutter:16px; }
+
+  /* Header / nav scrollable pour éviter "Contact" coupé */
+  .header{
+    grid-template-columns:auto 1fr auto;
+    gap:.6rem;
+    padding:12px var(--gutter);
+  }
+  .nav{
+    display:flex;
+    gap:1rem;
+    overflow-x:auto;                    /* scroll horizontal */
+    -webkit-overflow-scrolling:touch;
+    padding:0 44px 0 2px;               /* espace côté loupe */
+    scrollbar-width:none;               /* Firefox */
+  }
+  .nav::-webkit-scrollbar{ display:none; } /* Safari/Chrome */
+  .nav a{
+    white-space:nowrap;                 /* liens sur une seule ligne */
+    flex:0 0 auto;
+  }
+
+  /* Hero */
+  .hero{grid-template-columns:1fr; gap:14px; min-height:unset; padding:12px var(--gutter) 20px;}
+  .poster-title{display:none;}
+  .m-title{display:block; font-size:clamp(26px,7vw,34px);}
+  .stage{aspect-ratio:3/4;}
+  .lead{max-width:none; font-size:1rem;}
+
+  /* Story */
+  .section-story{padding:20px var(--gutter) 28px;}
+  .story-grid{grid-template-columns:1fr; gap:18px;}
+  .slider{aspect-ratio:1/1; border-radius:16px;}
+  .slider .nav{width:40px;height:40px;}
+  .dots{bottom:10px;}
+  .accordion{margin:12px 0 8px;}
+  .acc-item{font-size:20px; padding:.8rem 0;}
+  .acc-panel img{max-height:220px;}
+
+  /* Shop */
+  .section-shop{padding:24px var(--gutter) 36px;}
+  .products{grid-template-columns:1fr; gap:14px;}
+  .btn-small{width:100%; padding:.75rem 1rem;}
+
+  /* Footer : 1 colonne + safe-area iOS */
+  .site-footer{
+    padding:28px var(--gutter) max(28px, env(safe-area-inset-bottom) + 24px);
+  }
+  .footer-grid{
+    grid-template-columns:1fr;
+    grid-template-rows:auto;
+    row-gap:18px;
+  }
+  .brand-bottom{ grid-column:1; }
+  .socials{ gap:12px; }
+  .social{ width:44px; height:44px; }
+  .footer-bottom{
+    justify-content:center;
+    text-align:center;
+    flex-wrap:wrap;
+  }
+}
+
     </style>
   </head>
 
@@ -510,6 +577,3 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
     </script>
   </body>
 </html>
-git add .
-git commit -m "Correction responsive mobile"
-git push origin main
