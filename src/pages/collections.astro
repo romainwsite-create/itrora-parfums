@@ -201,9 +201,9 @@ const pageTitle = "Collections — Itrora";
     /* Prix – € ajouté proprement */
     .p-price{ margin:6px 0 16px; color:#d65a38; font-weight:800; font-size:1.1rem; }
     .p-price, .p-price .old, .p-price .new{ font-variant-numeric: lining-nums; }
-    .p-price::after{ content:none; }                                 /* pas d’euro sur le conteneur */
-    .p-price .old::after, .p-price .new::after{ content:"\00A0\20AC"; font-weight:800; } /* € sur montants */
-    .p-price:not(:has(span))::after{ content:"\00A0\20AC"; font-weight:800; }  /* € pour les prix simples */
+    .p-price::after{ content:none; }
+    .p-price .old::after, .p-price .new::after{ content:"\00A0\20AC"; font-weight:800; }
+    .p-price:not(:has(span))::after{ content:"\00A0\20AC"; font-weight:800; }
     .p-price .old{ color:#8a8a8a; text-decoration:line-through; margin-right:.4rem; font-weight:600; }
     .p-price .new{ color:#d65a38; font-weight:800; }
 
@@ -214,6 +214,81 @@ const pageTitle = "Collections — Itrora";
     }
     .p-btn:hover{ filter:brightness(1.05); }
     .p-btn:active{ transform:translateY(1px); }
+
+    /* ======== MOBILE-ONLY TWEAKS (≤ 640px) ======== */
+    @media (max-width:640px){
+      /* Évite tout débordement horizontal */
+      body { overflow-x:hidden; }
+
+      /* HERO : nav en “chips” scrollable, jamais coupée */
+      .hc__inner{
+        position:absolute; inset:0;
+        display:flex; flex-direction:column; justify-content:flex-end; align-items:center;
+        gap:12px; padding:18px 14px 22px;
+      }
+      .hc__blur-nav{
+        width:100%;
+        gap:10px;
+        padding:8px 10px;
+        border-radius:12px;
+        overflow-x:auto;
+        scrollbar-width:none;
+        -ms-overflow-style:none;
+        justify-content:flex-start;
+        background:rgba(0,0,0,.25);
+        border-color:rgba(255,255,255,.22);
+        backdrop-filter:blur(8px) saturate(120%);
+      }
+      .hc__blur-nav::-webkit-scrollbar{ display:none; }
+      .hc__blur-nav a{
+        white-space:nowrap;
+        font-size:13px;
+        padding:8px 10px;
+        border-radius:10px;
+        background:rgba(255,255,255,.08);
+      }
+      .hc__title{
+        font-size:34px;
+        line-height:1.05;
+        text-align:center;
+        text-wrap:balance;
+      }
+
+      /* Toolbar empilée + select plein largeur */
+      .shop__wrap{ width:min(720px, 92%); }
+      .shop__toolbar{
+        grid-template-columns:1fr;
+        gap:10px;
+        align-items:stretch;
+        margin:16px 0 18px;
+      }
+      .results-count{ font-size:.78rem; letter-spacing:.18em; }
+      .sort{ display:block; }
+      .sort select{
+        width:100%;
+        padding:10px 34px 10px 0;
+        font-size:15px;
+      }
+
+      /* Cartes : visuels un peu plus grands, titres lisibles */
+      .p-media{ aspect-ratio:4/3; }
+      .p-media img{ max-width:78%; }
+      .p-body{ padding:16px 14px 18px; }
+      .p-eyebrow{ font-size:.82rem; }
+      .p-title{ font-size:20px; }
+      .p-price{ font-size:1.05rem; margin-bottom:14px; }
+      .p-btn{ display:block; width:100%; text-align:center; padding:13px 16px; }
+
+      /* Grille : déjà 1 colonne via règle plus haut, on resserre l’écart */
+      .grid{ gap:18px; }
+    }
+
+    /* Ultra-petit (≤ 360px) : micro-ajustements */
+    @media (max-width:360px){
+      .hc__title{ font-size:30px; }
+      .hc__blur-nav a{ font-size:12px; padding:7px 8px; }
+      .p-title{ font-size:19px; }
+    }
   </style>
 
   <!-- ===== JS : compteur + tri + WhatsApp ===== -->
@@ -241,7 +316,6 @@ const pageTitle = "Collections — Itrora";
       function sortProducts(mode){
         const items = Array.from(grid.children);
         const get = (el, attr) => el.getAttribute(attr);
-
         let sorted = items.slice();
 
         switch(mode){
