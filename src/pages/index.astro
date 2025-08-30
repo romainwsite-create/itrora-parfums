@@ -8,7 +8,6 @@ const WHATSAPP_MSG =
   "Bonjour, je souhaite en savoir plus sur la nouvelle collection Itrora Parfums.";
 const WHATSAPP_URL = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(WHATSAPP_MSG)}`;
 ---
-
 <html lang="fr">
   <head>
     <meta charset="utf-8" />
@@ -44,7 +43,8 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
       .title-wrap{position:relative;height:100%}
       .poster-title{position:absolute;left:20px;top:50%;transform:translateY(-50%) rotate(-90deg);transform-origin:center;display:flex;flex-direction:column;justify-content:space-evenly;align-items:center;height:60vh;margin:0;font-family:"Playfair Display",serif;font-weight:700;font-size:clamp(72px,8vw,140px);color:var(--accent)}
       .poster-title .block{display:block}
-      .hero-right{display:grid;grid-template-rows:1fr auto;gap:1.6rem}
+      .hero-right{display:grid;grid-template-rows:auto 1fr auto;gap:1.2rem}
+      .m-title{display:none;font-family:"Playfair Display",serif;font-weight:700;margin:.25rem 0 .25rem;color:var(--ink)} /* MOBILE ONLY (affiché + bas) */
       .stage{position:relative;aspect-ratio:4/5;width:100%;border-radius:22px;overflow:hidden;background:#fff;box-shadow:inset 0 0 0 1px rgba(0,0,0,.03),0 20px 50px rgba(0,0,0,.06)}
       .scene-img{width:100%;height:100%;object-fit:cover;border-radius:22px;display:block}
       .lead{max-width:560px;color:var(--muted);font-size:1rem;line-height:1.6}
@@ -77,9 +77,7 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
       .acc-icon{display:inline-block;transform:rotate(90deg);transition:transform .25s ease}
       .acc-item[aria-expanded="true"] .acc-icon{transform:rotate(270deg)}
       .acc-panel{display:none;padding:.8rem 0 1.2rem;color:var(--muted);line-height:1.6}
-      .acc-panel img{
-        display:block;height:auto;width:min(100%,520px);max-height:320px;object-fit:contain;margin:.75rem auto 0;border-radius:10px;box-shadow:0 8px 20px rgba(0,0,0,.06);background:#fff;
-      }
+      .acc-panel img{display:block;height:auto;width:min(100%,520px);max-height:320px;object-fit:contain;margin:.75rem auto 0;border-radius:10px;box-shadow:0 8px 20px rgba(0,0,0,.06);background:#fff;}
       .acc-sep{border:0;border-top:1px solid rgba(0,0,0,.08);margin:0}
       .btn-ghost{display:inline-block;text-decoration:none;font-weight:600;border-radius:12px;padding:.9rem 1.4rem;background:var(--ink);color:#fff;box-shadow:0 12px 24px rgba(0,0,0,.12)}
       .btn-ghost:hover{filter:brightness(1.05)}
@@ -131,12 +129,7 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
       /* Footer */
       .site-footer{background:#fff;color:var(--ink);padding:3rem var(--gutter) 2.5rem;border-top:1px solid rgba(0,0,0,.06)}
       .site-footer,.site-footer *{font-family:"Montserrat",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif !important}
-      .footer-grid{
-        max-width:1200px;margin:0 auto;display:grid;
-        grid-template-columns:1.2fr 1fr 1fr 1fr;
-        grid-template-rows:auto 1fr;
-        column-gap:3rem;row-gap:1.8rem;align-items:start
-      }
+      .footer-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;grid-template-rows:auto 1fr;column-gap:3rem;row-gap:1.8rem;align-items:start}
       .footer-brand{display:contents}
       .brand-top{grid-row:1;grid-column:1 / -1;justify-self:center;text-align:center}
       .footer-logo{display:block;height:144px;width:auto}
@@ -146,11 +139,7 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
       .footer-col{grid-row:2;align-self:start}
       .sub{opacity:.85;margin:.75rem 0 1rem}
       .socials{display:flex;gap:.8rem;margin-top:1rem}
-      .social{
-        width:48px;height:48px;display:grid;place-items:center;border-radius:50%;
-        background:#f6f5f4;color:#2A2927;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08);
-        transition:filter .15s ease,transform .15s ease;text-decoration:none
-      }
+      .social{width:48px;height:48px;display:grid;place-items:center;border-radius:50%;background:#f6f5f4;color:#2A2927;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08);transition:filter .15s ease,transform .15s ease;text-decoration:none}
       .social:hover{filter:brightness(0.97);transform:translateY(-1px)}
       .footer-title{letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:800;font-size:.9rem;margin:0 0 .9rem}
       .footer-list{margin:0;padding:0;list-style:none}
@@ -160,20 +149,11 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
       .contact p{margin:.35rem 0}
       .contact .link{color:var(--ink);text-decoration:none}
       .contact .link:hover{ text-decoration:underline}
-      .footer-bottom{
-        max-width:1200px;margin:2rem auto 0;padding-top:1rem;display:flex;
-        align-items:center;justify-content:flex-start;gap:1rem;border-top:1px solid rgba(0,0,0,.08);color:var(--muted)
-      }
-      @media (max-width:1000px){
-        .footer-grid{grid-template-columns:1fr 1fr 1fr}
-        .brand-bottom{grid-column:1 / 4}
-      }
-      @media (max-width:560px){
-        .footer-grid{grid-template-columns:1fr}
-        .brand-bottom{grid-column:1}
-      }
+      .footer-bottom{max-width:1200px;margin:2rem auto 0;padding-top:1rem;display:flex;align-items:center;justify-content:flex-start;gap:1rem;border-top:1px solid rgba(0,0,0,.08);color:var(--muted)}
+      @media (max-width:1000px){.footer-grid{grid-template-columns:1fr 1fr 1fr}.brand-bottom{grid-column:1 / 4}}
+      @media (max-width:560px){.footer-grid{grid-template-columns:1fr}.brand-bottom{grid-column:1}}
 
-      /* === Search overlay (AJOUT) === */
+      /* Search overlay */
       .search{position:fixed;inset:0;background:rgba(0,0,0,.35);backdrop-filter:blur(6px);display:grid;place-items:start center;padding-top:10vh;z-index:9999}
       .search[hidden]{display:none}
       .search__box{width:min(900px,92%);background:#fff;border-radius:16px;box-shadow:0 18px 50px rgba(0,0,0,.18);padding:14px 14px 10px}
@@ -185,6 +165,38 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
       .search__close:hover{filter:brightness(.97)}
       .search__hint{margin:8px 2px 2px;color:#6F6A65;font-size:.9rem}
       .search__hint kbd{background:#f4f3f2;border:1px solid rgba(0,0,0,.12);border-radius:6px;padding:2px 6px;font-family:inherit}
+
+      /* ============== MOBILE ONLY (ne change rien sur PC) ============== */
+      @media (max-width: 700px){
+        html, body{max-width:100%; overflow-x:hidden;}
+        :root{ --gutter: 16px; }
+
+        .header{grid-template-columns:auto 1fr auto; gap:.6rem; padding:12px var(--gutter);}
+        .nav{gap:1rem; overflow-x:auto; -webkit-overflow-scrolling:touch;}
+        .nav a{flex:0 0 auto; padding-bottom:2px;}
+
+        .hero{grid-template-columns:1fr; gap:14px; min-height:unset; padding:12px var(--gutter) 20px;}
+        .poster-title{display:none;}             /* cache le gros mot pivoté */
+        .m-title{display:block; font-size:clamp(26px,7vw,34px);}
+        .stage{aspect-ratio:3/4;}
+        .lead{max-width:none; font-size:1rem;}
+
+        .section-story{padding:20px var(--gutter) 28px;}
+        .story-grid{grid-template-columns:1fr; gap:18px;}
+        .slider{aspect-ratio:1/1; border-radius:16px;}
+        .slider .nav{width:40px;height:40px;}
+        .dots{bottom:10px;}
+        .accordion{margin:12px 0 8px;}
+        .acc-item{font-size:20px; padding:.8rem 0;}
+        .acc-panel img{max-height:220px;}
+
+        .section-shop{padding:24px var(--gutter) 36px;}
+        .products{grid-template-columns:1fr; gap:14px;}
+        .btn-small{width:100%; padding:.75rem 1rem;}
+
+        .site-footer{padding:28px var(--gutter) 24px;}
+        .site-footer .social{width:42px; height:42px;}
+      }
     </style>
   </head>
 
@@ -192,33 +204,21 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
     <!-- Header -->
     <header class="header">
       <a class="brand" href="/" aria-label="{SITE_NAME}">
-        <img
-          class="brand-logo"
-          src="/logo-parfum.png"
-          srcset="/logo-parfum.png 1x, /logo-parfum.png 2x"
-          alt="{SITE_NAME}"
-          width="160" height="40"
-          loading="eager" fetchpriority="high"
-        />
+        <img class="brand-logo" src="/logo-parfum.png" srcset="/logo-parfum.png 1x, /logo-parfum.png 2x" alt="{SITE_NAME}" width="160" height="40" loading="eager" fetchpriority="high" />
       </a>
-
       <nav class="nav" aria-label="Navigation principale">
         <a href="/a-propos">À propos</a>
         <a href="/collections">Collections</a>
         <a href="/contact">Contact</a>
       </nav>
-
       <div class="actions">
         <button class="icon-btn" aria-label="Recherche">
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8">
-            <circle cx="11" cy="11" r="7"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
         </button>
       </div>
     </header>
 
-    <!-- Panneau de recherche (AJOUT) -->
+    <!-- Panneau de recherche -->
     <div class="search" data-search hidden>
       <div class="search__box" role="dialog" aria-modal="true" aria-labelledby="searchLabel">
         <form class="search__form" autocomplete="off">
@@ -226,9 +226,7 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
           <input class="search__input" type="search" placeholder="Tapez un nom (ex: coco, dragon…)" />
           <button class="search__close" type="button" aria-label="Fermer" data-close>×</button>
         </form>
-        <div class="search__hint">
-          Astuce : appuyez sur <kbd>/</kbd> pour ouvrir — <span data-count>0</span> résultats
-        </div>
+        <div class="search__hint">Astuce : appuyez sur <kbd>/</kbd> pour ouvrir — <span data-count>0</span> résultats</div>
       </div>
     </div>
 
@@ -237,20 +235,14 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
       <section class="hero-left">
         <div class="title-wrap">
           <h1 class="poster-title" aria-hidden="true">
-            <span class="block">NEW</span>
-            <span class="block">COLLEC</span>
-            <span class="block">TION</span>
+            <span class="block">NEW</span><span class="block">COLLEC</span><span class="block">TION</span>
           </h1>
         </div>
       </section>
       <section class="hero-right">
-        <div class="stage">
-          <img src="/2025.svg" alt="Coco des Îles" class="scene-img" />
-        </div>
-        <p class="lead">
-          Coco des Îles vous dépose d’emblée sur des rivages lointains, baignés de douceur et d’un voile de mystère.
-          L’amande et l’anis ouvrent la danse avant qu’une coco généreuse et gourmande ne s’épanouisse, souvenir de soirées tièdes à la belle étoile.
-        </p>
+        <h2 class="m-title">Nouvelle collection</h2> <!-- MOBILE ONLY -->
+        <div class="stage"><img src="/2025.svg" alt="Coco des Îles" class="scene-img" /></div>
+        <p class="lead">Coco des Îles vous dépose d’emblée sur des rivages lointains, baignés de douceur et d’un voile de mystère. L’amande et l’anis ouvrent la danse avant qu’une coco généreuse et gourmande ne s’épanouisse, souvenir de soirées tièdes à la belle étoile.</p>
       </section>
     </main>
 
@@ -276,14 +268,10 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
               </figure>
             </div>
             <button class="nav prev" aria-label="Précédent" data-prev>
-              <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </button>
             <button class="nav next" aria-label="Suivant" data-next>
-              <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </button>
             <div class="dots" role="tablist" aria-label="Changer de slide" data-dots></div>
           </div>
@@ -317,45 +305,21 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
     <!-- PERKS -->
     <section class="perks" aria-label="Nos engagements">
       <div class="perks-grid">
-        <article class="perk">
-          <div class="ico" aria-hidden="true">
-            <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-              <path d="M3 7h11v8H3z"/><path d="M14 10h4l3 3v2h-7V10z"/><circle cx="7" cy="17" r="2"/><circle cx="16" cy="17" r="2"/>
-            </svg>
-          </div>
-          <h3>Livraison gratuite</h3>
-          <p>Livraison point relais gratuite dès 70€ d’achat</p>
-        </article>
+        <article class="perk"><div class="ico" aria-hidden="true">
+          <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7h11v8H3z"/><path d="M14 10h4l3 3v2h-7V10z"/><circle cx="7" cy="17" r="2"/><circle cx="16" cy="17" r="2"/></svg>
+        </div><h3>Livraison gratuite</h3><p>Livraison point relais gratuite dès 70€ d’achat</p></article>
 
-        <article class="perk">
-          <div class="ico" aria-hidden="true">
-            <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-              <path d="M20 12v7H4v-7"/><path d="M4 10h16v2H4z"/><path d="M12 10s-2.5-1.8-2.5-3.5S11 4 12 5c1-1 2.5 0 2.5 1.5S12 10 12 10z"/>
-            </svg>
-          </div>
-          <h3>Parfum offert</h3>
-          <p>Dès 100€ d’achat, dans la limite des stocks disponibles</p>
-        </article>
+        <article class="perk"><div class="ico" aria-hidden="true">
+          <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 12v7H4v-7"/><path d="M4 10h16v2H4z"/><path d="M12 10s-2.5-1.8-2.5-3.5S11 4 12 5c1-1 2.5 0 2.5 1.5S12 10 12 10z"/></svg>
+        </div><h3>Parfum offert</h3><p>Dès 100€ d’achat, dans la limite des stocks disponibles</p></article>
 
-        <article class="perk">
-          <div class="ico" aria-hidden="true">
-            <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-              <path d="M12 12a5 5 0 1 0-5-5"/><path d="M3 21a7 7 0 0 1 14 0"/><circle cx="12" cy="7" r="3"/>
-            </svg>
-          </div>
-          <h3>Service client 24/24 – 7j/7</h3>
-          <p>Contactez-nous par téléphone ou par mail, à toute heure</p>
-        </article>
+        <article class="perk"><div class="ico" aria-hidden="true">
+          <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 12a5 5 0 1 0-5-5"/><path d="M3 21a7 7 0 0 1 14 0"/><circle cx="12" cy="7" r="3"/></svg>
+        </div><h3>Service client 24/24 – 7j/7</h3><p>Contactez-nous par téléphone ou par mail, à toute heure</p></article>
 
-        <article class="perk">
-          <div class="ico" aria-hidden="true">
-            <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-              <path d="M12 2l7 4v6c0 5-3.5 9-7 10-3.5-1-7-5-7-10V6l7-4z"/><path d="M9 12l2 2 4-4"/>
-            </svg>
-          </div>
-          <h3>Paiements sécurisés</h3>
-          <p>Vos paiements en ligne sont 100% protégés</p>
-        </article>
+        <article class="perk"><div class="ico" aria-hidden="true">
+          <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l7 4v6c0 5-3.5 9-7 10-3.5-1-7-5-7-10V6l7-4z"/><path d="M9 12l2 2 4-4"/></svg>
+        </div><h3>Paiements sécurisés</h3><p>Vos paiements en ligne sont 100% protégés</p></article>
       </div>
     </section>
 
@@ -363,106 +327,49 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
     <section class="section-shop">
       <div class="shop-grid">
         <figure class="video-card">
-          <video
-            class="hero-video"
-            autoplay
-            muted
-            loop
-            playsinline
-            preload="metadata"
-            poster="/coco-des-iles1.png"
-          >
+          <video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="/coco-des-iles1.png">
             <source src="/video-muscfruite.mp4" type="video/mp4" />
             Votre navigateur ne peut pas lire la vidéo.
             <a href="/video-muscfruite.mp4">Télécharger</a>
           </video>
-
-          <figcaption class="vid-caption">
-            <span class="eyebrow">Nouvelle collection</span>
-            <h3 class="vid-title">Fragrance Collection</h3>
-          </figcaption>
+          <figcaption class="vid-caption"><span class="eyebrow">Nouvelle collection</span><h3 class="vid-title">Fragrance Collection</h3></figcaption>
         </figure>
 
         <div class="products">
-          <!-- Coco des Îles -->
           <article class="product-card">
-            <a class="product-media" href="/produits/coco-des-iles" aria-label="Voir Coco des Îles">
-              <img src="/coco-des-iles1.png" alt="Coco des Îles — Extrait de parfum" />
-            </a>
-            <div class="card-body">
-              <h4 class="p-title"><a href="/produits/coco-des-iles">Coco des Îles</a></h4>
-              <div class="price"><span class="new">40,00€</span></div>
-              <button class="btn-small btn-buy" type="button" data-item="Coco des Îles (40,00€)">Je veux acheter</button>
-            </div>
+            <a class="product-media" href="/produits/coco-des-iles" aria-label="Voir Coco des Îles"><img src="/coco-des-iles1.png" alt="Coco des Îles — Extrait de parfum" /></a>
+            <div class="card-body"><h4 class="p-title"><a href="/produits/coco-des-iles">Coco des Îles</a></h4><div class="price"><span class="new">40,00€</span></div><button class="btn-small btn-buy" type="button" data-item="Coco des Îles (40,00€)">Je veux acheter</button></div>
           </article>
 
-          <!-- Dragon Rose -->
           <article class="product-card is-sale">
-            <a class="product-media" href="/produits/dragon-rose" aria-label="Voir Dragon Rose">
-              <img src="/dragon-rose2.png" alt="Dragon Rose — Eau de parfum" />
-              <span class="badge">SALE</span>
-            </a>
-            <div class="card-body">
-              <h4 class="p-title"><a href="/produits/dragon-rose">Dragon Rose</a></h4>
-              <div class="price"><span class="old">40,00€</span><span class="new">35,00€</span></div>
-              <button class="btn-small btn-buy" type="button" data-item="Dragon Rose (35,00€)">Je veux acheter</button>
-            </div>
+            <a class="product-media" href="/produits/dragon-rose" aria-label="Voir Dragon Rose"><img src="/dragon-rose2.png" alt="Dragon Rose — Eau de parfum" /><span class="badge">SALE</span></a>
+            <div class="card-body"><h4 class="p-title"><a href="/produits/dragon-rose">Dragon Rose</a></h4><div class="price"><span class="old">40,00€</span><span class="new">35,00€</span></div><button class="btn-small btn-buy" type="button" data-item="Dragon Rose (35,00€)">Je veux acheter</button></div>
           </article>
 
-          <!-- Musc fruité -->
           <article class="product-card">
-            <a class="product-media" href="/produits/musc-fruite" aria-label="Voir Musc Fruite">
-              <img src="/musc-fruite1.png" alt="Musc Fruité — Extrait de parfum" />
-            </a>
-            <div class="card-body">
-              <h4 class="p-title"><a href="/produits/musc-fruite">Musc fruité</a></h4>
-              <div class="price"><span class="new">40,00€</span></div>
-              <button class="btn-small btn-buy" type="button" data-item="Musc Fruité (40,00€)">Je veux acheter</button>
-            </div>
+            <a class="product-media" href="/produits/musc-fruite" aria-label="Voir Musc Fruite"><img src="/musc-fruite1.png" alt="Musc Fruité — Extrait de parfum" /></a>
+            <div class="card-body"><h4 class="p-title"><a href="/produits/musc-fruite">Musc fruité</a></h4><div class="price"><span class="new">40,00€</span></div><button class="btn-small btn-buy" type="button" data-item="Musc Fruité (40,00€)">Je veux acheter</button></div>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- FOOTER : logo centré en haut + colonnes alignées -->
+    <!-- FOOTER -->
     <footer class="site-footer">
       <div class="footer-grid">
         <section class="footer-brand">
           <div class="brand-top">
             <img class="footer-logo" src="/logo-parfum.png" srcset="/logo-parfum.png 1x, /logo-parfum.png 2x" alt="{SITE_NAME}" width="180" height="45" />
           </div>
-
           <div class="brand-bottom">
             <p class="sub">Maison française de parfums — matières nobles, lignes épurées.</p>
-
             <div class="socials">
-              <a class="social" href="#" aria-label="Instagram">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-                  <rect x="2.8" y="2.8" width="18.4" height="18.4" rx="5"></rect><circle cx="12" cy="12" r="4.2"></circle><circle cx="17.5" cy="6.5" r="1.2"></circle>
-                </svg>
-              </a>
-              <a class="social" href="#" aria-label="Facebook">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <path d="M15 3h-2.2a3.8 3.8 0 0 0-3.8 3.8V9H7v3h2v7h3v-7h2.5l.5-3H12V6.8c0-.44.36-.8.8-.8H15V3z"/>
-                </svg>
-              </a>
-              <a class="social" href="#" aria-label="TikTok">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <path d="M14 3h-2v9.1a3 3 0 1 1-2-2.8V7.6A6 6 0 1 0 17 13V8.7c1 .8 2.2 1.3 3.5 1.5V7.8A5.5 5.5 0 0 1 14 3z"/>
-                </svg>
-              </a>
-              <a class="social" href={WHATSAPP_URL} target="_blank" rel="noopener" aria-label="WhatsApp">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-                  <path d="M3 20l1.2-3.6A8 8 0 1 1 4 12.5"/><path d="M8.8 10.6c.3-1 .7-1 1.1-.9l1.1.6c.3.2.7.7.6 1l-.2.7c.8 1.2 1.8 2 3 2.6l.7-.2c.4-.1.9.3 1 .6l.6 1.1c.1.4.1.8-.9 1.1"/>
-                </svg>
-              </a>
-              <a class="social" href="#" aria-label="Snapchat">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-                  <path d="M6 14c-1 2-3 1-3 2s2 1 3 2 1 3 6 3 5-2 6-3 3-1 3-2-2 0-3-2c0-1 1-2 1-4 0-3-2-6-7-6s-7 3-7 6c0 2 1 3 1 4Z"/>
-                </svg>
-              </a>
+              <a class="social" href="#" aria-label="Instagram"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="2.8" y="2.8" width="18.4" height="18.4" rx="5"></rect><circle cx="12" cy="12" r="4.2"></circle><circle cx="17.5" cy="6.5" r="1.2"></circle></svg></a>
+              <a class="social" href="#" aria-label="Facebook"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M15 3h-2.2a3.8 3.8 0 0 0-3.8 3.8V9H7v3h2v7h3v-7h2.5l.5-3H12V6.8c0-.44.36-.8.8-.8H15V3z"/></svg></a>
+              <a class="social" href="#" aria-label="TikTok"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 3h-2v9.1a3 3 0 1 1-2-2.8V7.6A6 6 0 1 0 17 13V8.7c1 .8 2.2 1.3 3.5 1.5V7.8A5.5 5.5 0 0 1 14 3z"/></svg></a>
+              <a class="social" href={WHATSAPP_URL} target="_blank" rel="noopener" aria-label="WhatsApp"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 20l1.2-3.6A8 8 0 1 1 4 12.5"/><path d="M8.8 10.6c.3-1 .7-1 1.1-.9l1.1.6c.3.2.7.7.6 1l-.2.7c.8 1.2 1.8 2 3 2.6l.7-.2c.4-.1.9.3 1 .6l.6 1.1c.1.4.1.8-.9 1.1"/></svg></a>
+              <a class="social" href="#" aria-label="Snapchat"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 14c-1 2-3 1-3 2s2 1 3 2 1 3 6 3 5-2 6-3 3-1 3-2-2 0-3-2c0-1 1-2 1-4 0-3-2-6-7-6s-7 3-7 6c0 2 1 3 1 4Z"/></svg></a>
             </div>
-
             <div class="contact">
               <p>Colombes (92700)</p>
               <p><a href="mailto:contact@itrora.com" class="link">contact@itrora.com</a></p>
@@ -473,40 +380,25 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
 
         <nav class="footer-col" aria-label="Liens rapides">
           <h4 class="footer-title">Liens rapides</h4>
-          <ul class="footer-list">
-            <li><a href="/">Accueil</a></li>
-            <li><a href="/collections">Les Parfums</a></li>
-          </ul>
+          <ul class="footer-list"><li><a href="/">Accueil</a></li><li><a href="/collections">Les Parfums</a></li></ul>
         </nav>
 
         <nav class="footer-col" aria-label="Informations">
           <h4 class="footer-title">Informations</h4>
-          <ul class="footer-list">
-            <li><a href="/a-propos">Notre histoire</a></li>
-            <li><a href="/foireauxquestions">FAQ</a></li>
-            <li><a href="/contact">Contact</a></li>
-          </ul>
+          <ul class="footer-list"><li><a href="/a-propos">Notre histoire</a></li><li><a href="/foireauxquestions">FAQ</a></li><li><a href="/contact">Contact</a></li></ul>
         </nav>
 
         <nav class="footer-col" aria-label="Légal">
           <h4 class="footer-title">Legal</h4>
-          <ul class="footer-list">
-            <li><a href="/conditions-generales-de-vente">C.G.V</a></li>
-            <li><a href="/mentions-legales">Mentions légales</a></li>
-            <li><a href="/confidentialite">Confidentialité</a></li>
-            <li><a href="/politique-de-cookies">Politique de cookies</a></li>
-          </ul>
+          <ul class="footer-list"><li><a href="/conditions-generales-de-vente">C.G.V</a></li><li><a href="/mentions-legales">Mentions légales</a></li><li><a href="/confidentialite">Confidentialité</a></li><li><a href="/politique-de-cookies">Politique de cookies</a></li></ul>
         </nav>
       </div>
-
-      <div class="footer-bottom">
-        <small>© {new Date().getFullYear()} {SITE_NAME}. Tous droits réservés.</small>
-      </div>
+      <div class="footer-bottom"><small>© {new Date().getFullYear()} {SITE_NAME}. Tous droits réservés.</small></div>
     </footer>
 
-    <!-- JS (AJOUT: gestion de la loupe en bas) -->
+    <!-- JS -->
     <script>
-      // Slider
+      // Slider (+ swipe mobile)
       (function(){
         const slider = document.querySelector('[data-slider]');
         if(!slider) return;
@@ -521,7 +413,6 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
           slides.forEach((s,k)=>s.classList.toggle('is-active', k===i));
           if (dotsWrap) [...dotsWrap.children].forEach((d,k)=>d.classList.toggle('is-active', k===i));
         }
-
         if (dotsWrap) {
           slides.forEach((_,k)=>{
             const b = document.createElement('button');
@@ -530,10 +421,19 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
             dotsWrap.appendChild(b);
           });
         }
-
         go(0);
-        if (prev) prev.addEventListener('click',()=>go(i-1));
-        if (next) next.addEventListener('click',()=>go(i+1));
+        prev?.addEventListener('click',()=>go(i-1));
+        next?.addEventListener('click',()=>go(i+1));
+
+        // Swipe mobile (n'affecte pas desktop)
+        let x0=null;
+        slider.addEventListener('touchstart',e=>x0=e.touches[0].clientX,{passive:true});
+        slider.addEventListener('touchend',e=>{
+          if(x0==null) return;
+          const dx = e.changedTouches[0].clientX - x0;
+          if(Math.abs(dx)>40){ dx>0 ? go(i-1) : go(i+1); }
+          x0=null;
+        });
       })();
 
       // Accordion
@@ -563,7 +463,7 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
         });
       })();
 
-      // Search overlay (loupe)
+      // Search overlay
       (function(){
         const openBtn = document.querySelector('.actions .icon-btn[aria-label="Recherche"]');
         const panel   = document.querySelector('[data-search]');
@@ -574,7 +474,6 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
         const countEl = panel.querySelector('[data-count]');
         const cards = Array.from(document.querySelectorAll('.products .product-card'));
 
-        // texte indexé (titre + alt)
         cards.forEach(card=>{
           const title = card.querySelector('.p-title')?.textContent || '';
           const alt   = card.querySelector('img')?.alt || '';
@@ -589,20 +488,10 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
             card.style.display = ok ? '' : 'none';
             if(ok) matches++;
           });
-          if(countEl) countEl.textContent = String(matches);
+          countEl.textContent = String(matches);
         }
-        function open(){
-          panel.hidden = false;
-          input.value = '';
-          filter('');
-          input.focus();
-          document.body.style.overflow = 'hidden';
-        }
-        function close(){
-          panel.hidden = true;
-          document.body.style.overflow = '';
-          cards.forEach(c=>c.style.display='');
-        }
+        function open(){ panel.hidden=false; input.value=''; filter(''); input.focus(); document.body.style.overflow='hidden'; }
+        function close(){ panel.hidden=true; document.body.style.overflow=''; cards.forEach(c=>c.style.display=''); }
 
         openBtn.addEventListener('click', open);
         closeBtn.addEventListener('click', close);
@@ -615,12 +504,12 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
         panel.querySelector('.search__form').addEventListener('submit', (e)=>{
           e.preventDefault();
           const first = cards.find(c => c.style.display !== 'none');
-          if(first){
-            const link = first.querySelector('a[href]');
-            if(link){ link.click(); }
-          }
+          first?.querySelector('a[href]')?.click();
         });
       })();
     </script>
   </body>
 </html>
+git add .
+git commit -m "Correction responsive mobile"
+git push origin main
