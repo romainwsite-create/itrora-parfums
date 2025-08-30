@@ -22,10 +22,20 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
     <style>
       :root{ --bg:#F3F1EF;--ink:#2A2927;--muted:#6F6A65;--accent:#4A352A; --gutter:2rem; --left-col:440px; }
       *{box-sizing:border-box} html,body{height:100%}
-      body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+      body{
+        margin:0;background:var(--bg);color:var(--ink);
+        font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+        /* espace sous le header fixe (valeur mise à jour en JS) */
+        padding-top: var(--header-h, 88px);
+      }
 
-      /* Header */
-      .header{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:1rem;padding:1.2rem var(--gutter)}
+      /* Header (FIXE) */
+      .header{
+        position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+        background: var(--bg);
+        display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:1rem;padding:1.2rem var(--gutter);
+        /* tout le style d’origine reste identique */
+      }
       .brand{display:inline-flex;align-items:center;text-decoration:none}
       .brand-logo{display:block;height:144px;width:auto}
       @media (max-width:1000px){ .brand-logo{height:112px} }
@@ -199,76 +209,50 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
       }
 
       /* ===== MOBILE TWEAKS ===== */
-@media (max-width: 700px){
-  html, body{max-width:100%; overflow-x:hidden;}
-  :root{ --gutter:16px; }
+      @media (max-width: 700px){
+        html, body{max-width:100%; overflow-x:hidden;}
+        :root{ --gutter:16px; }
+        .header{grid-template-columns:auto 1fr auto; gap:.6rem; padding:12px var(--gutter);}
+        .nav{
+          display:flex; gap:1rem; overflow-x:auto; -webkit-overflow-scrolling:touch;
+          padding:0 44px 0 2px; scrollbar-width:none;
+        }
+        .nav::-webkit-scrollbar{ display:none; }
+        .nav a{ white-space:nowrap; flex:0 0 auto; }
 
-  /* Header / nav scrollable pour éviter "Contact" coupé */
-  .header{
-    grid-template-columns:auto 1fr auto;
-    gap:.6rem;
-    padding:12px var(--gutter);
-  }
-  .nav{
-    display:flex;
-    gap:1rem;
-    overflow-x:auto;                    /* scroll horizontal */
-    -webkit-overflow-scrolling:touch;
-    padding:0 44px 0 2px;               /* espace côté loupe */
-    scrollbar-width:none;               /* Firefox */
-  }
-  .nav::-webkit-scrollbar{ display:none; } /* Safari/Chrome */
-  .nav a{
-    white-space:nowrap;                 /* liens sur une seule ligne */
-    flex:0 0 auto;
-  }
+        .hero{grid-template-columns:1fr; gap:14px; min-height:unset; padding:12px var(--gutter) 20px;}
+        .poster-title{display:none;}
+        .m-title{display:block; font-size:clamp(26px,7vw,34px);}
+        .stage{aspect-ratio:3/4;}
+        .lead{max-width:none; font-size:1rem;}
 
-  /* Hero */
-  .hero{grid-template-columns:1fr; gap:14px; min-height:unset; padding:12px var(--gutter) 20px;}
-  .poster-title{display:none;}
-  .m-title{display:block; font-size:clamp(26px,7vw,34px);}
-  .stage{aspect-ratio:3/4;}
-  .lead{max-width:none; font-size:1rem;}
+        .section-story{padding:20px var(--gutter) 28px;}
+        .story-grid{grid-template-columns:1fr; gap:18px;}
+        .slider{aspect-ratio:1/1; border-radius:16px;}
+        .slider .nav{width:40px;height:40px;}
+        .dots{bottom:10px;}
+        .accordion{margin:12px 0 8px;}
+        .acc-item{font-size:20px; padding:.8rem 0;}
+        .acc-panel img{max-height:220px;}
 
-  /* Story */
-  .section-story{padding:20px var(--gutter) 28px;}
-  .story-grid{grid-template-columns:1fr; gap:18px;}
-  .slider{aspect-ratio:1/1; border-radius:16px;}
-  .slider .nav{width:40px;height:40px;}
-  .dots{bottom:10px;}
-  .accordion{margin:12px 0 8px;}
-  .acc-item{font-size:20px; padding:.8rem 0;}
-  .acc-panel img{max-height:220px;}
+        .section-shop{padding:24px var(--gutter) 36px;}
+        .products{grid-template-columns:1fr; gap:14px;}
+        .btn-small{width:100%; padding:.75rem 1rem;}
 
-  /* Shop */
-  .section-shop{padding:24px var(--gutter) 36px;}
-  .products{grid-template-columns:1fr; gap:14px;}
-  .btn-small{width:100%; padding:.75rem 1rem;}
-
-  /* Footer : 1 colonne + safe-area iOS */
-  .site-footer{
-    padding:28px var(--gutter) max(28px, env(safe-area-inset-bottom) + 24px);
-  }
-  .footer-grid{
-    grid-template-columns:1fr;
-    grid-template-rows:auto;
-    row-gap:18px;
-  }
-  .brand-bottom{ grid-column:1; }
-  .socials{ gap:12px; }
-  .social{ width:44px; height:44px; }
-  .footer-bottom{
-    justify-content:center;
-    text-align:center;
-    flex-wrap:wrap;
-  }
-}
-
+        .site-footer{
+          padding:28px var(--gutter) max(28px, env(safe-area-inset-bottom) + 24px);
+        }
+        .footer-grid{ grid-template-columns:1fr; grid-template-rows:auto; row-gap:18px; }
+        .brand-bottom{ grid-column:1; }
+        .socials{ gap:12px; }
+        .social{ width:44px; height:44px; }
+        .footer-bottom{ justify-content:center; text-align:center; flex-wrap:wrap; }
+      }
     </style>
   </head>
 
   <body>
-    <!-- Header -->
+    <!-- Header (fixe) -->
     <header class="header">
       <a class="brand" href="/" aria-label="{SITE_NAME}">
         <img class="brand-logo" src="/logo-parfum.png" srcset="/logo-parfum.png 1x, /logo-parfum.png 2x" alt="{SITE_NAME}" width="160" height="40" loading="eager" fetchpriority="high" />
@@ -465,6 +449,20 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
 
     <!-- JS -->
     <script>
+      // -> Espace sous header fixe : mesure la hauteur et met --header-h
+      (function(){
+        const header = document.querySelector('.header');
+        if(!header) return;
+        function setHeaderSpace(){
+          const h = Math.ceil(header.getBoundingClientRect().height);
+          document.documentElement.style.setProperty('--header-h', h + 'px');
+        }
+        window.addEventListener('load', setHeaderSpace, { once: true });
+        window.addEventListener('resize', setHeaderSpace);
+        const ro = new ResizeObserver(setHeaderSpace);
+        ro.observe(header);
+      })();
+
       // Slider (+ swipe mobile)
       (function(){
         const slider = document.querySelector('[data-slider]');
