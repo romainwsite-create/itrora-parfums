@@ -37,3 +37,76 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
       </div>
     </div>
   </section>
+
+
+    <div class="footer-bottom">
+      <small>© {new Date().getFullYear()} {SITE_NAME}. Tous droits réservés.</small>
+    </div>
+  </footer>
+
+  <style>
+    /* Montserrat */
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
+
+    :root{
+      --max: 1100px;
+      --gap: 32px;
+      --ink: #111;
+      --muted: #666;
+      --bg: #fff;
+      --radius: 16px;
+    }
+    *{ box-sizing:border-box }
+
+    /* ====== HERO CONTACT (gros titre animé) ====== */
+    .hero{ background: var(--bg); font-family:"Montserrat",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; }
+    .hero__wrap{ max-width: var(--max); margin: 0 auto; padding: 56px 20px 6px; position: relative; }
+    .hero__title{
+      position: relative; display: inline-block;
+      font-weight: 800; text-transform: uppercase; letter-spacing: -0.02em; line-height: .95;
+      font-size: clamp(48px, 10vw, 120px); color: var(--ink);
+    }
+    .hero__title .reveal{ display:inline-block; opacity:0; transform: translateY(18px) scale(.98);
+      animation: titleIn .7s cubic-bezier(.2,.9,.2,1) .05s forwards; }
+    @keyframes titleIn { to { opacity:1; transform: translateY(0) scale(1); } }
+    .hero__title::after{
+      content:""; position:absolute; left:0; bottom:-12px; height:10px; width:0; border-radius:999px;
+      background: linear-gradient(90deg, rgba(0,0,0,.15), rgba(0,0,0,.9));
+      animation: underline 1s cubic-bezier(.2,.9,.2,1) .45s forwards;
+    }
+    @keyframes underline { to { width:100%; } }
+    .hero__shine{
+      position:absolute; inset:-6px 0 0 0; pointer-events:none;
+      background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,.6) 30%, transparent 60%);
+      background-size:200% 100%; mix-blend-mode: overlay; opacity:0;
+      animation: shine 2.2s ease-out .6s forwards;
+    }
+    @keyframes shine {
+      0% { background-position:120% 0; opacity:0; }
+      25%{ opacity:1; }
+      100%{ background-position:-20% 0; opacity:0; }
+    }
+
+    /* ====== SECTION 2 colonnes ====== */
+    .two-col{ background: var(--bg); color: var(--ink); font-family:"Montserrat",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; }
+    .two-col__wrap{
+      max-width: var(--max); margin: 0 auto; padding: 32px 20px 40px;
+      display:grid; grid-template-columns: 1.1fr 0.9fr; gap: var(--gap); align-items:center;
+    }
+    @media (max-width: 900px){
+      .two-col__wrap{ grid-template-columns:1fr; gap:22px; padding:22px 16px 32px; }
+    }
+    .two-col__title{
+      font-size: clamp(28px, 4vw, 42px);
+      line-height: 1.15; margin: 0 0 14px 0; letter-spacing: .2px; font-weight: 700; text-align:left;
+    }
+    .two-col__text{
+      margin:0; font-size: clamp(15px, 2.1vw, 18px); line-height:1.6; color:var(--muted); text-align:left; max-width:60ch;
+    }
+    .two-col__media{
+      position: relative; border-radius: var(--radius); overflow: hidden;
+      aspect-ratio: 16 / 10; background:#f2f2f2; box-shadow: 0 8px 28px rgba(0,0,0,.07);
+    }
+    .two-col__media img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+    
