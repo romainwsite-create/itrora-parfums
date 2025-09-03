@@ -1,6 +1,13 @@
 ---
 import Layout from "../layouts/Layout.astro";
 const pageTitle = "Collections — Itrora";
+
+// Liens Stripe connus
+const STRIPE = {
+  "coco-des-iles": "https://buy.stripe.com/9B64gz7gN7YydEI6HgbQY01",
+  "dragon-rose":   "https://buy.stripe.com/eVqeVd58F7Yy9os3v4bQY02",
+  "musc-fruite":   "https://buy.stripe.com/3cIbJ1gRna6GeIMc1AbQY03",
+};
 ---
 
 <Layout title={pageTitle} description="Toutes nos fragrances Itrora Parfums.">
@@ -61,7 +68,12 @@ const pageTitle = "Collections — Itrora";
             <p class="p-eyebrow">VANILLÉE</p>
             <h3 class="p-title"><a href="/produits/coco-des-iles">Coco des îles</a></h3>
             <div class="p-price">40,00&nbsp;€</div>
-            <a href="#" class="p-btn btn-buy" data-item="Coco des îles" data-price="40,00 €">JE VEUX ACHETER</a>
+            <a
+              href={STRIPE["coco-des-iles"]}
+              class="p-btn btn-buy"
+              target="_blank"
+              rel="noopener noreferrer"
+            >JE VEUX ACHETER</a>
           </div>
         </article>
 
@@ -82,7 +94,12 @@ const pageTitle = "Collections — Itrora";
             <p class="p-eyebrow">FRUITÉE</p>
             <h3 class="p-title"><a href="/produits/dragon-rose">Dragon Rose</a></h3>
             <div class="p-price"><span class="old">40,00&nbsp;€</span><span class="new">35,00&nbsp;€</span></div>
-            <a href="#" class="p-btn btn-buy" data-item="Dragon Rose" data-price="35,00 €">JE VEUX ACHETER</a>
+            <a
+              href={STRIPE["dragon-rose"]}
+              class="p-btn btn-buy"
+              target="_blank"
+              rel="noopener noreferrer"
+            >JE VEUX ACHETER</a>
           </div>
         </article>
 
@@ -102,7 +119,12 @@ const pageTitle = "Collections — Itrora";
             <p class="p-eyebrow">FRUITÉE</p>
             <h3 class="p-title"><a href="/produits/musc-fruite">Musc fruité</a></h3>
             <div class="p-price">40,00&nbsp;€</div>
-            <a href="#" class="p-btn btn-buy" data-item="Musc fruité" data-price="40,00 €">JE VEUX ACHETER</a>
+            <a
+              href={STRIPE["musc-fruite"]}
+              class="p-btn btn-buy"
+              target="_blank"
+              rel="noopener noreferrer"
+            >JE VEUX ACHETER</a>
           </div>
         </article>
 
@@ -195,7 +217,7 @@ const pageTitle = "Collections — Itrora";
     .p-btn:active{ transform:translateY(1px); }
   </style>
 
-  <!-- ===== JS (compteur + tri + WhatsApp) ===== -->
+  <!-- ===== JS (compteur + tri) ===== -->
   <script>
     // Compteur
     (function(){
@@ -234,21 +256,6 @@ const pageTitle = "Collections — Itrora";
       }
 
       select.addEventListener('change', e => sortProducts(e.target.value));
-    })();
-
-    // WhatsApp – achat
-    (function(){
-      const PHONE = "33650959363";
-      document.addEventListener('click', (e)=>{
-        const btn = e.target.closest('.btn-buy');
-        if(!btn) return;
-        e.preventDefault();
-        const item  = btn.dataset.item  || 'un produit';
-        const price = btn.dataset.price || '';
-        const msg = `Bonjour, je veux acheter ${item}${price ? ' ('+price+')' : ''}.`;
-        const url = `https://wa.me/${PHONE}?text=${encodeURIComponent(msg)}`;
-        window.open(url, '_blank', 'noopener');
-      });
     })();
   </script>
 </Layout>

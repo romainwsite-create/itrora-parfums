@@ -11,24 +11,10 @@ const P = {
     "Coco des Îles vous transporte instantanément sur des rivages lointains et baignés de douceur, où l’air garde un voile de mystère.",
   notes: { tete: "Amande, Anis", coeur: "Coco", fond: "Vanille, Fève de tonka" },
   bullets: ["Made in France", "Livré en quelques jours"],
+  stripe: "https://buy.stripe.com/9B64gz7gN7YydEI6HgbQY01"
 };
 
 const WHATSAPP_PHONE = "33650959363";
-const waUrl = (p) =>
-  `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
-    `Bonjour, je veux commander ${p.name} (${p.price}).`
-  )}`;
-
-// Lien WhatsApp pour un produit de la section "similaires"
-const waItem = (name, price) =>
-  `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
-    `Bonjour, je veux commander ${name} (${price}).`
-  )}`;
-
-// Pour le pied de page (même logique que la 1ère page)
-const WHATSAPP_MSG =
-  "Bonjour, je souhaite en savoir plus sur la nouvelle collection Itrora Parfums.";
-const WHATSAPP_URL = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(WHATSAPP_MSG)}`;
 
 // Images de la galerie produit
 const IMAGES = [
@@ -39,10 +25,10 @@ const IMAGES = [
   "/coco-des-iles5.jpg",
 ];
 
-// Produits similaires
+// Produits similaires (avec leurs liens Stripe)
 const RELATED = [
-  { slug: "/produits/dragon-rose", name: "Dragon Rose", tags: "FLORALE, FRUITÉE, ROSE", price: "35,00 €", image: "/dragon-rose2.png" },
-  { slug: "/produits/musc-fruite", name: "Musc Fruité", tags: "FRUITÉ, MUSCÉ", price: "40,00 €", image: "/musc-fruite1.png" },
+  { slug: "/produits/dragon-rose", name: "Dragon Rose", tags: "FLORALE, FRUITÉE, ROSE", price: "35,00 €", image: "/dragon-rose2.png", stripe: "https://buy.stripe.com/eVqeVd58F7Yy9os3v4bQY02" },
+  { slug: "/produits/musc-fruite", name: "Musc Fruité", tags: "FRUITÉ, MUSCÉ", price: "40,00 €", image: "/musc-fruite1.png",  stripe: "https://buy.stripe.com/3cIbJ1gRna6GeIMc1AbQY03"},
 ];
 ---
 
@@ -242,163 +228,32 @@ const RELATED = [
 .mini-btn:hover{ filter:brightness(1.05); }
 
 @media (max-width:700px){
-  .mini-title{ display:none; } /* on garde l’image + prix + CTA sur mobile */
+  .mini-title{ display:none; }
 }
 
 </style>
 </head>
-<!-- Mini barre d'achat (apparait après les onglets) -->
-<div class="mini-bar" data-mini-bar aria-hidden="true">
-  <div class="mini-wrap">
-    <div class="mini-left">
-      <img class="mini-thumb" src={P.image} alt={P.name} />
-      <div class="mini-title">{P.name}</div>
-      <div class="mini-price">{P.price}</div>
-    </div>
-
-    <div class="mini-qty">
-      <button class="mini-step" type="button" data-delta="-1" aria-label="Diminuer">−</button>
-      <input class="mini-input" type="text" value="1" inputmode="numeric" pattern="[0-9]*" data-qty />
-      <button class="mini-step" type="button" data-delta="1" aria-label="Augmenter">+</button>
-    </div>
-
-    <a class="mini-btn" href={waUrl(P)} target="_blank" rel="noopener" data-mini-buy>JE VEUX ACHETER</a>
-  </div>
-</div>
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  /* ====== GALERIE ====== */
-  const gal = document.querySelector("[data-gallery]");
-  if (gal) {
-    const mainImg = gal.querySelector("[data-main]");
-    const thumbs = Array.from(gal.querySelectorAll("[data-th]"));
-    const prev = gal.querySelector("[data-prev]");
-    const next = gal.querySelector("[data-next]");
-
-    let index = thumbs.findIndex(b => b.classList.contains("is-active"));
-    if (index < 0) index = 0;
-
-    const setActive = (i) => {
-      index = (i + thumbs.length) % thumbs.length;
-      thumbs.forEach((b, k) => b.classList.toggle("is-active", k === index));
-      const img = thumbs[index].querySelector("img");
-      if (img && mainImg) mainImg.src = img.src;
-    };
-
-    thumbs.forEach((btn, i) => btn.addEventListener("click", () => setActive(i)));
-    if (prev) prev.addEventListener("click", () => setActive(index - 1));
-    if (next) next.addEventListener("click", () => setActive(index + 1));
-  }
-
-  /* ====== ONGLETS ====== */
-  const tabsRoot = document.querySelector("[data-tabs]");
-  if (tabsRoot) {
-    const tabs = Array.from(tabsRoot.querySelectorAll("[role='tab']"));
-    const panels = Array.from(document.querySelectorAll("[data-panel]"));
-    const activate = (key) => {
-      tabs.forEach(t => {
-        const on = t.dataset.tab === key;
-        t.classList.toggle("is-active", on);
-        t.setAttribute("aria-selected", on ? "true" : "false");
-      });
-      panels.forEach(p => p.classList.toggle("is-active", p.dataset.panel === key));
-    };
-    tabs.forEach(t => t.addEventListener("click", () => activate(t.dataset.tab)));
-  }
-
-  /* ====== MINI-BAR (achat rapide) ====== */
-  const mini = document.querySelector("[data-mini-bar]");
-  if (mini) {
-    const showMini = () => {
-      mini.classList.add("is-visible");
-      document.body.classList.add("has-mini");
-    };
-    const hideMini = () => {
-      mini.classList.remove("is-visible");
-      document.body.classList.remove("has-mini");
-    };
-
-    const tabsSection = document.querySelector(".tabs");
-    if (tabsSection && "IntersectionObserver" in window) {
-      const io = new IntersectionObserver(([e]) => {
-        e.isIntersecting ? hideMini() : showMini();
-      }, { rootMargin: "0px", threshold: 0 });
-      io.observe(tabsSection);
-    } else {
-      window.addEventListener("scroll", () => {
-        const y = tabsSection ? tabsSection.getBoundingClientRect().top : 9999;
-        (y < 0) ? showMini() : hideMini();
-      });
-    }
-
-    // +/- quantité (une seule fois, et DANS le if)
-    const qtyInput = mini.querySelector("[data-qty]");
-    mini.querySelectorAll(".mini-step").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const d = parseInt(btn.dataset.delta || "0", 10);
-        const v = Math.max(1, (parseInt(qtyInput.value || "1", 10) || 1) + d);
-        qtyInput.value = v;
-      });
-    });
-  }
-
-  /* ====== LIENS WHATSAPP ====== */
-  const WHATSAPP_PHONE = "33650959363";
-  const waUrl = (name, price) =>
-    `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
-      `Bonjour, je veux commander ${name} (${price}).`
-    )}`;
-  const waInfoUrl = (name) =>
-    `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
-      `Bonjour, je veux des infos sur ${name}.`
-    )}`;
-  const waFooterUrl =
-    `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
-      "Bonjour, je souhaite en savoir plus sur la nouvelle collection Itrora Parfums."
-    )}`;
-
-  const prodNameEl = document.querySelector("h1");
-  const prodPriceEl = document.querySelector(".price");
-  const prodImgEl = document.querySelector("[data-main]");
-  const PROD = {
-    name: prodNameEl ? prodNameEl.textContent.trim() : "Produit",
-    price: prodPriceEl ? prodPriceEl.textContent.trim() : "",
-    image: prodImgEl ? prodImgEl.getAttribute("src") : ""
-  };
-
-  document.querySelectorAll(".btn").forEach(a => {
-    const txt = a.textContent.trim().toLowerCase();
-    if (txt.includes("je veux acheter")) {
-      a.setAttribute("href", waUrl(PROD.name, PROD.price));
-      a.setAttribute("target", "_blank"); a.setAttribute("rel", "noopener");
-    }
-    if (txt.includes("poser une question")) {
-      a.setAttribute("href", waInfoUrl(PROD.name));
-      a.setAttribute("target", "_blank"); a.setAttribute("rel", "noopener");
-    }
-  });
-
-  const miniBuy = document.querySelector("[data-mini-buy]");
-  if (miniBuy) {
-    miniBuy.setAttribute("href", waUrl(PROD.name, PROD.price));
-    miniBuy.setAttribute("target", "_blank"); miniBuy.setAttribute("rel", "noopener");
-  }
-
-  document.querySelectorAll(".rel-card").forEach(card => {
-    const name = card.querySelector(".rel-title")?.textContent.trim() || "";
-    const price = card.querySelector(".rel-price")?.textContent.trim() || "";
-    card.querySelector(".rel-btn")?.setAttribute("href", waUrl(name, price));
-  });
-
-  const footerWa = document.querySelector('footer .social[aria-label="WhatsApp"]');
-  if (footerWa) {
-    footerWa.setAttribute("href", waFooterUrl);
-    footerWa.setAttribute("target", "_blank"); footerWa.setAttribute("rel", "noopener");
-  }
-});
-</script>
 
 <body>
+  <!-- Mini barre d'achat (apparait après les onglets) -->
+  <div class="mini-bar" data-mini-bar aria-hidden="true">
+    <div class="mini-wrap">
+      <div class="mini-left">
+        <img class="mini-thumb" src={P.image} alt={P.name} />
+        <div class="mini-title">{P.name}</div>
+        <div class="mini-price">{P.price}</div>
+      </div>
+
+      <div class="mini-qty">
+        <button class="mini-step" type="button" data-delta="-1" aria-label="Diminuer">−</button>
+        <input class="mini-input" type="text" value="1" inputmode="numeric" pattern="[0-9]*" data-qty />
+        <button class="mini-step" type="button" data-delta="1" aria-label="Augmenter">+</button>
+      </div>
+
+      <a class="mini-btn" href={P.stripe} target="_blank" rel="noopener" data-mini-buy>JE VEUX ACHETER</a>
+    </div>
+  </div>
+
   <div class="wrap">
     <p style="margin:0 0 12px;color:var(--muted);font-size:.95rem">
       <a href="/">Accueil</a> › <a href="/#parfums">Parfums</a> › {P.name}
@@ -441,7 +296,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="price">{P.price}</div>
 
         <div class="cta">
-          <a class="btn" href={waUrl(P)} target="_blank" rel="noopener">Je veux acheter</a>
+          <a class="btn" href={P.stripe} target="_blank" rel="noopener">Je veux acheter</a>
           <a class="btn secondary" href={`https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent("Bonjour, je veux des infos sur " + P.name + ".")}`} target="_blank" rel="noopener">Poser une question</a>
         </div>
 
@@ -470,21 +325,25 @@ document.addEventListener("DOMContentLoaded", () => {
             <img class="f-img" src="/vaporisation.png" alt="Vaporisation haute précision" loading="lazy" />
             <p class="f-text">Chaque flacon est équipé d’un brumisateur dernière génération qui offre une expérience sensorielle unique.</p>
           </article>
-        </section>
 
-        <section class="socials" aria-label="Nos réseaux sociaux">
-          <a class="so" href="#" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M15 3h-2.2a3.8 3.8 0 0 0-3.8 3.8V9H7v3h2v7h3v-7h2.5l.5-3H12V6.8c0-.44.36-.8.8-.8H15V3z"/></svg>
-          </a>
-          <a class="so" href="#" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="2.8" y="2.8" width="18.4" height="18.4" rx="5"></rect><circle cx="12" cy="12" r="4.2"></circle><circle cx="17.5" cy="6.5" r="1.2"></circle></svg>
-          </a>
-          <a class="so" href="#" target="_blank" rel="noopener" aria-label="Snapchat" title="Snapchat">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 14c-1 2-3 1-3 2s2 1 3 2 1 3 6 3 5-2 6-3 3-1 3-2-2 0-3-2c0-1 1-2 1-4 0-3-2-6-7-6s-7 3-7 6c0 2 1 3 1 4Z"/></svg>
-          </a>
-            <a class="social" href="#" aria-label="TikTok">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 3h-2v9.1a3 3 0 1 1-2-2.8V7.6A6 6 0 1 0 17 13V8.7c1 .8 2.2 1.3 3.5 1.5V7.8A5.5 5.5 0 0 1 14 3z"/></svg>
-            </a>
+  <div class="socials">
+    <a class="social" href="https://www.instagram.com/itrora_parfums/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="2.8" y="2.8" width="18.4" height="18.4" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.5" cy="6.5" r="1.2"/></svg>
+    </a>
+
+    <a class="social" href="https://www.facebook.com/profile.php?id=61580022094559" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M15 3h-2.2a3.8 3.8 0 0 0-3.8 3.8V9H7v3h2v7h3v-7h2.5l.5-3H12V6.8c0-.44.36-.8.8-.8H15V3z"/></svg>
+    </a>
+
+    <a class="social" href="https://www.tiktok.com/@itrora_parfums?_t=ZN-8zL5BMxvxJe&_r=1" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 3h-2v9.1a3 3 0 1 1-2-2.8V7.6A6 6 0 1 0 17 13V8.7c1 .8 2.2 1.3 3.5 1.5V7.8A5.5 5.5 0 0 1 14 3z"/></svg>
+    </a>
+
+    <a class="social" href="https://t.snapchat.com/jO0R9PnP" target="_blank" rel="noopener noreferrer" aria-label="Snapchat">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 14c-1 2-3 1-3 2s2 1 3 2 1 3 6 3 5-2 6-3 3-1 3-2-2 0-3-2c0-1 1-2 1-4 0-3-2-6-7-6s-7 3-7 6c0 2 1 3 1 4Z"/></svg>
+    </a>
+
+          </section>
         </section>
       </div>
     </div>
@@ -519,7 +378,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="rel-tags">{p.tags}</div>
             <h3 class="rel-title"><a href={p.slug} style="text-decoration:none;color:inherit">{p.name}</a></h3>
             <div class="rel-price">{p.price}</div>
-            <a class="rel-btn" href={waItem(p.name, p.price)} target="_blank" rel="noopener">JE VEUX ACHETER</a>
+            <a class="rel-btn" href={p.stripe} target="_blank" rel="noopener">JE VEUX ACHETER</a>
           </article>
         ))}
       </div>
@@ -560,242 +419,236 @@ document.addEventListener("DOMContentLoaded", () => {
     </section>
   </div> <!-- /wrap -->
 
-<!-- ========== PIED DE PAGE (logo centré en haut, colonnes alignées) ========== -->
-<footer class="site-footer">
-  <div class="footer-grid">
-    <!-- Colonne marque : on utilise display:contents pour placer brand-top (rang 1) et brand-bottom (rang 2) -->
-    <section class="footer-brand">
-      <!-- Rangée 1 : LOGO plein-largeur, centré -->
-      <div class="brand-top">
-        <img
-          class="footer-logo"
-          src="/logo-parfum.png"
-          srcset="/logo-parfum.png 1x, /logo-parfum.png 2x"
-          alt="{SITE_NAME}"
-          width="180"
-          height="45"
-        />
-      </div>
-
-      <!-- Rangée 2 : contenu marque (texte, réseaux, contact) en colonne 1 -->
-      <div class="brand-bottom">
-        <p class="sub">Maison française de parfums — matières nobles, lignes épurées.</p>
-
-        <div class="socials">
-          <a class="social" href="#" aria-label="Instagram">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-              <rect x="2.8" y="2.8" width="18.4" height="18.4" rx="5"></rect><circle cx="12" cy="12" r="4.2"></circle><circle cx="17.5" cy="6.5" r="1.2"></circle>
-            </svg>
-          </a>
-          <a class="social" href="#" aria-label="Facebook">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M15 3h-2.2a3.8 3.8 0 0 0-3.8 3.8V9H7v3h2v7h3v-7h2.5l.5-3H12V6.8c0-.44.36-.8.8-.8H15V3z"/>
-            </svg>
-          </a>
-          <a class="social" href="#" aria-label="TikTok">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M14 3h-2v9.1a3 3 0 1 1-2-2.8V7.6A6 6 0 1 0 17 13V8.7c1 .8 2.2 1.3 3.5 1.5V7.8A5.5 5.5 0 0 1 14 3z"/>
-            </svg>
-          </a>
-          <a class="social" href="#" aria-label="Snapchat">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-              <path d="M6 14c-1 2-3 1-3 2s2 1 3 2 1 3 6 3 5-2 6-3 3-1 3-2-2 0-3-2c0-1 1-2 1-4 0-3-2-6-7-6s-7 3-7 6c0 2 1 3 1 4Z"/>
-            </svg>
-          </a>
+  <!-- ========== PIED DE PAGE ========== -->
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <section class="footer-brand">
+        <div class="brand-top">
+          <img
+            class="footer-logo"
+            src="/logo-parfum.png"
+            srcset="/logo-parfum.png 1x, /logo-parfum.png 2x"
+            alt="{SITE_NAME}"
+            width="180"
+            height="45"
+          />
         </div>
 
-        <div class="contact">
-          <p>Colombes (92700)</p>
-          <p><a href="mailto:contact@itrora.com" class="link">contact@itrora.com</a></p>
-          <p><a class="link" href="tel:+33650959363">06 50 95 93 63</a></p>
+        <div class="brand-bottom">
+          <p class="sub">Maison française de parfums — matières nobles, lignes épurées.</p>
+
+           <div class="socials">
+    <a class="social" href="https://www.instagram.com/itrora_parfums/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="2.8" y="2.8" width="18.4" height="18.4" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.5" cy="6.5" r="1.2"/></svg>
+    </a>
+
+    <a class="social" href="https://www.facebook.com/profile.php?id=61580022094559" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M15 3h-2.2a3.8 3.8 0 0 0-3.8 3.8V9H7v3h2v7h3v-7h2.5l.5-3H12V6.8c0-.44.36-.8.8-.8H15V3z"/></svg>
+    </a>
+
+    <a class="social" href="https://www.tiktok.com/@itrora_parfums?_t=ZN-8zL5BMxvxJe&_r=1" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 3h-2v9.1a3 3 0 1 1-2-2.8V7.6A6 6 0 1 0 17 13V8.7c1 .8 2.2 1.3 3.5 1.5V7.8A5.5 5.5 0 0 1 14 3z"/></svg>
+    </a>
+
+    <a class="social" href="https://t.snapchat.com/jO0R9PnP" target="_blank" rel="noopener noreferrer" aria-label="Snapchat">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 14c-1 2-3 1-3 2s2 1 3 2 1 3 6 3 5-2 6-3 3-1 3-2-2 0-3-2c0-1 1-2 1-4 0-3-2-6-7-6s-7 3-7 6c0 2 1 3 1 4Z"/></svg>
+    </a>
+  </div>
+</div>
+
+          <div class="contact">
+            <p>Colombes (92700)</p>
+            <p><a href="mailto:contact@itrora.com" class="link">contact@itrora.com</a></p>
+            <p><a class="link" href="tel:+33650959363">06 50 95 93 63</a></p>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- Rangée 2 : Colonne 2 -->
-    <nav class="footer-col" aria-label="Liens rapides">
-      <h4 class="footer-title">Liens rapides</h4>
-      <ul class="footer-list">
-        <li><a href="/">Accueil</a></li>
-        <li><a href="/collections">Les Parfums</a></li>
-      </ul>
-    </nav>
+      <nav class="footer-col" aria-label="Liens rapides">
+        <h4 class="footer-title">Liens rapides</h4>
+        <ul class="footer-list">
+          <li><a href="/">Accueil</a></li>
+          <li><a href="/collections">Les Parfums</a></li>
+        </ul>
+      </nav>
 
-    <!-- Rangée 2 : Colonne 3 -->
-    <nav class="footer-col" aria-label="Informations">
-      <h4 class="footer-title">Informations</h4>
-      <ul class="footer-list">
-        <li><a href="/a-propos">Notre histoire</a></li>
-        <li><a href="/foireauxquestions">FAQ</a></li>
-        <li><a href="/contact">Contact</a></li>
-      </ul>
-    </nav>
+      <nav class="footer-col" aria-label="Informations">
+        <h4 class="footer-title">Informations</h4>
+        <ul class="footer-list">
+          <li><a href="/a-propos">Notre histoire</a></li>
+          <li><a href="/foireauxquestions">FAQ</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+      </nav>
 
-    <!-- Rangée 2 : Colonne 4 -->
-    <nav class="footer-col" aria-label="Légal">
-      <h4 class="footer-title">Legal</h4>
-      <ul class="footer-list">
-        <li><a href="/conditions-generales-de-vente">C.G.V</a></li>
-        <li><a href="/mentions-legales">Mentions légales</a></li>
-        <li><a href="/confidentialite">Confidentialité</a></li>
-        <li><a href="/politique-de-cookies">Politique de cookies</a></li>
-      </ul>
-    </nav>
-  </div>
+      <nav class="footer-col" aria-label="Légal">
+        <h4 class="footer-title">Legal</h4>
+        <ul class="footer-list">
+          <li><a href="/conditions-generales-de-vente">C.G.V</a></li>
+          <li><a href="/mentions-legales">Mentions légales</a></li>
+          <li><a href="/confidentialite">Confidentialité</a></li>
+          <li><a href="/politique-de-cookies">Politique de cookies</a></li>
+        </ul>
+      </nav>
+    </div>
 
-  <div class="footer-bottom">
-    <small>© {new Date().getFullYear()} {SITE_NAME}. Tous droits réservés.</small>
-  </div>
-</footer>
+    <div class="footer-bottom">
+      <small>© {new Date().getFullYear()} {SITE_NAME}. Tous droits réservés.</small>
+    </div>
+  </footer>
 
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&display=swap');
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    /* ====== GALERIE ====== */
+    const gal = document.querySelector("[data-gallery]");
+    if (gal) {
+      const mainImg = gal.querySelector("[data-main]");
+      const thumbs = Array.from(gal.querySelectorAll("[data-th]"));
+      const prev = gal.querySelector("[data-prev]");
+      const next = gal.querySelector("[data-next]");
 
-  :root{
-    --ink:#2A2927;
-    --muted:#64706A;
-    --bd:rgba(0,0,0,.08);
-  }
+      let index = thumbs.findIndex(b => b.classList.contains("is-active"));
+      if (index < 0) index = 0;
 
-  .site-footer{
-    background:#fff; color:var(--ink);
-    padding:3rem 24px 2.5rem;
-    border-top:1px solid var(--bd);
-    margin-top:8px;
-  }
-  .site-footer, .site-footer *{
-    font-family:"Montserrat",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif !important;
-  }
+      const setActive = (i) => {
+        index = (i + thumbs.length) % thumbs.length;
+        thumbs.forEach((b, k) => b.classList.toggle("is-active", k === index));
+        const img = thumbs[index].querySelector("img");
+        if (img && mainImg) mainImg.src = img.src;
+      };
 
-  /* ===== Grille footer : 2 rangées
-     - row 1 : logo (brand-top) centré, pleine largeur
-     - row 2 : 4 colonnes de contenu (brand-bottom + 3 menus) alignées en HAUT (même ligne) */
-  .footer-grid{
-    max-width:1200px; margin:0 auto;
-    display:grid;
-    grid-template-columns: 1.2fr 1fr 1fr 1fr;
-    grid-template-rows: auto 1fr;
-    column-gap: 3rem;
-    row-gap: 1.8rem;
-    align-items: start;           /* les colonnes de la 2e rangée démarrent toutes en haut */
-  }
-
-  /* Permet de “sortir” les enfants dans la grille parente */
-  .footer-brand{ display: contents; }
-
-  /* LOGO (rang 1, centré) */
-  .brand-top{
-    grid-row: 1;
-    grid-column: 1 / -1;
-    justify-self: center;         /* centre horizontalement */
-    text-align: center;
-  }
-  .footer-logo{ display:block; height:144px; width:auto; }
-  @media (max-width:1000px){ .footer-logo{ height:112px } }
-  @media (max-width:560px){  .footer-logo{ height:80px } }
-
-  /* Colonne marque (rang 2, col 1) */
-  .brand-bottom{
-    grid-row: 2;
-    grid-column: 1 / 2;
-    align-self: start;
-  }
-
-  /* Autres colonnes (rang 2) */
-  .footer-col{ grid-row:2; align-self:start; }
-
-  .sub{ opacity:.85; margin:.75rem 0 1rem; }
-  .socials{ display:flex; gap:.8rem; margin-top:1rem; }
-  .social{
-    width:48px; height:48px; display:grid; place-items:center; border-radius:50%;
-    background:#f6f5f4; color:var(--ink);
-    box-shadow:inset 0 0 0 1px var(--bd);
-    transition:filter .15s ease, transform .15s ease; text-decoration:none;
-  }
-  .social:hover{ filter:brightness(0.97); transform:translateY(-1px); }
-
-  .footer-title{
-    letter-spacing:.18em; text-transform:uppercase; color:var(--muted);
-    font-weight:800; font-size:.9rem; margin:0 0 .9rem;
-  }
-  .footer-list{ margin:0; padding:0; list-style:none; }
-  .footer-list li{ margin:.45rem 0; }
-  .footer-list a{ color:var(--ink); text-decoration:none; opacity:.9; }
-  .footer-list a:hover{ text-decoration:underline; }
-
-  .contact p{ margin:.35rem 0; }
-  .contact .link{ color:var(--ink); text-decoration:none; }
-  .contact .link:hover{ text-decoration:underline; }
-
-  .footer-bottom{
-    max-width:1200px; margin:2rem auto 0; padding-top:1rem;
-    display:flex; align-items:center; justify-content:flex-start; gap:1rem;
-    border-top:1px solid var(--bd); color:var(--muted);
-  }
-
-  /* ===== Responsive ===== */
-  @media (max-width:1000px){
-    .footer-grid{
-      grid-template-columns: 1fr 1fr 1fr;
+      thumbs.forEach((btn, i) => btn.addEventListener("click", () => setActive(i)));
+      if (prev) prev.addEventListener("click", () => setActive(index - 1));
+      if (next) next.addEventListener("click", () => setActive(index + 1));
     }
-    .brand-bottom{ grid-column: 1 / 4; }  /* la colonne marque s’étale sur la ligne sous le logo */
-  }
-  @media (max-width:560px){
-    .footer-grid{
-      grid-template-columns: 1fr;
+
+    /* ====== ONGLETS ====== */
+    const tabsRoot = document.querySelector("[data-tabs]");
+    if (tabsRoot) {
+      const tabs = Array.from(tabsRoot.querySelectorAll("[role='tab']"));
+      const panels = Array.from(document.querySelectorAll("[data-panel]"));
+      const activate = (key) => {
+        tabs.forEach(t => {
+          const on = t.dataset.tab === key;
+          t.classList.toggle("is-active", on);
+          t.setAttribute("aria-selected", on ? "true" : "false");
+        });
+        panels.forEach(p => p.classList.toggle("is-active", p.dataset.panel === key));
+      };
+      tabs.forEach(t => t.addEventListener("click", () => activate(t.dataset.tab)));
     }
-    .brand-bottom{ grid-column: 1; }
-  }
 
-  /* ===== Mobile polish (ne change rien sur desktop) ===== */
-:root{ --miniH: 72px; } /* hauteur approx de la mini-barre */
+    /* ====== MINI-BAR (achat rapide) ====== */
+    const mini = document.querySelector("[data-mini-bar]");
+    if (mini) {
+      const showMini = () => {
+        mini.classList.add("is-visible");
+        document.body.classList.add("has-mini");
+      };
+      const hideMini = () => {
+        mini.classList.remove("is-visible");
+        document.body.classList.remove("has-mini");
+      };
 
-@media (max-width: 700px){
-  /* Quand la mini-barre est visible, on garde de la place en bas */
-  body.has-mini {
-    padding-bottom: calc(var(--miniH) + max(8px, env(safe-area-inset-bottom)));
-  }
+      const tabsSection = document.querySelector(".tabs");
+      if (tabsSection && "IntersectionObserver" in window) {
+        const io = new IntersectionObserver(([e]) => {
+          e.isIntersecting ? hideMini() : showMini();
+        }, { rootMargin: "0px", threshold: 0 });
+        io.observe(tabsSection);
+      } else {
+        window.addEventListener("scroll", () => {
+          const y = tabsSection ? tabsSection.getBoundingClientRect().top : 9999;
+          (y < 0) ? showMini() : hideMini();
+        });
+      }
 
-  /* Mini-barre : petite respiration pour l'encoche iOS */
-  .mini-bar{
-    padding-bottom: max(8px, env(safe-area-inset-bottom));
-  }
+      // +/- quantité (visuel uniquement)
+      const qtyInput = mini.querySelector("[data-qty]");
+      mini.querySelectorAll(".mini-step").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const d = parseInt(btn.dataset.delta || "0", 10);
+          const v = Math.max(1, (parseInt(qtyInput.value || "1", 10) || 1) + d);
+          qtyInput.value = v;
+        });
+      });
+    }
 
-  /* Le bloc CTA sous le prix : passe en “pile” propres */
-  .cta{
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  .cta .btn{
-    width: 100%;
-    justify-content: center;
-  }
+    /* ====== WHATSAPP (seulement pour "Infos" + footer) ====== */
+    const WHATSAPP_PHONE = "33650959363";
+    const waInfoUrl = (name) =>
+      `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
+        `Bonjour, je veux des infos sur ${name}.`
+      )}`;
+    const waFooterUrl =
+      `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
+        "Bonjour, je souhaite en savoir plus sur la nouvelle collection Itrora Parfums."
+      )}`;
 
-  /* Grille des notes olfactives : 1 colonne lisible */
-  .notes header,
-  .notes .row{
-    grid-template-columns: 1fr;
-  }
-  .notes header div,
-  .notes .row div{ padding: .8rem 1rem; }
+    const prodNameEl = document.querySelector("h1");
+    const PROD_NAME = prodNameEl ? prodNameEl.textContent.trim() : "Produit";
 
-  /* Galerie : vignettes un peu plus grandes et flèches plus petites */
-  .thumbs{ gap: 8px; }
-  .g-nav{ width:34px; height:34px; }
+    // Ne PAS toucher aux boutons "Je veux acheter" (Stripe).
+    // On ne met WhatsApp que sur "Poser une question".
+    document.querySelectorAll(".btn.secondary").forEach(a => {
+      a.setAttribute("href", waInfoUrl(PROD_NAME));
+      a.setAttribute("target", "_blank");
+      a.setAttribute("rel", "noopener");
+    });
 
-  /* Cartes “features” : image moins haute pour éviter le scroll vide */
-  .f-card{ grid-template-rows: auto 140px 1fr; padding:22px 18px; }
-  .f-img{ max-height:140px; }
+    // Lien WhatsApp du footer
+    const footerWa = document.querySelector("[data-footer-wa]");
+    if (footerWa) {
+      footerWa.setAttribute("href", waFooterUrl);
+      footerWa.setAttribute("target", "_blank");
+      footerWa.setAttribute("rel", "noopener");
+    }
+  });
+  </script>
 
-  /* Espace en bas des sections proches du footer pour éviter recouvrement */
-  .related, .perks{
-    padding-bottom: 72px; /* même valeur que --miniH */
-  }
-}
-
-/* Petit lissage pour les longs titres sur mobile */
-@media (max-width: 380px){
-  h1{ font-size: clamp(28px, 8vw, 34px); }
-}
-
-</style>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&display=swap');
+    :root{ --ink:#2A2927; --muted:#64706A; --bd:rgba(0,0,0,.08); }
+    .site-footer{ background:#fff; color:var(--ink); padding:3rem 24px 2.5rem; border-top:1px solid var(--bd); margin-top:8px; }
+    .site-footer, .site-footer *{ font-family:"Montserrat",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif !important; }
+    .footer-grid{ max-width:1200px; margin:0 auto; display:grid; grid-template-columns: 1.2fr 1fr 1fr 1fr; grid-template-rows: auto 1fr; column-gap: 3rem; row-gap: 1.8rem; align-items: start; }
+    .footer-brand{ display: contents; }
+    .brand-top{ grid-row: 1; grid-column: 1 / -1; justify-self: center; text-align: center; }
+    .footer-logo{ display:block; height:144px; width:auto; }
+    @media (max-width:1000px){ .footer-logo{ height:112px } }
+    @media (max-width:560px){  .footer-logo{ height:80px } }
+    .brand-bottom{ grid-row: 2; grid-column: 1 / 2; align-self: start; }
+    .footer-col{ grid-row:2; align-self:start; }
+    .sub{ opacity:.85; margin:.75rem 0 1rem; }
+    .socials{ display:flex; gap:.8rem; margin-top:1rem; }
+    .social{ width:48px; height:48px; display:grid; place-items:center; border-radius:50%; background:#f6f5f4; color:var(--ink); box-shadow:inset 0 0 0 1px var(--bd); transition:filter .15s ease, transform .15s ease; text-decoration:none; }
+    .social:hover{ filter:brightness(0.97); transform:translateY(-1px); }
+    .footer-title{ letter-spacing:.18em; text-transform:uppercase; color:var(--muted); font-weight:800; font-size:.9rem; margin:0 0 .9rem; }
+    .footer-list{ margin:0; padding:0; list-style:none; }
+    .footer-list li{ margin:.45rem 0; }
+    .footer-list a{ color:var(--ink); text-decoration:none; opacity:.9; }
+    .footer-list a:hover{ text-decoration:underline; }
+    .contact p{ margin:.35rem 0; }
+    .contact .link{ color:var(--ink); text-decoration:none; }
+    .contact .link:hover{ text-decoration:underline; }
+    .footer-bottom{ max-width:1200px; margin:2rem auto 0; padding-top:1rem; display:flex; align-items:center; justify-content:flex-start; gap:1rem; border-top:1px solid var(--bd); color:var(--muted); }
+    @media (max-width:1000px){ .footer-grid{ grid-template-columns: 1fr 1fr 1fr; } .brand-bottom{ grid-column: 1 / 4; } }
+    @media (max-width:560px){ .footer-grid{ grid-template-columns: 1fr; } .brand-bottom{ grid-column: 1; } }
+    :root{ --miniH: 72px; }
+    @media (max-width: 700px){
+      body.has-mini { padding-bottom: calc(var(--miniH) + max(8px, env(safe-area-inset-bottom))); }
+      .mini-bar{ padding-bottom: max(8px, env(safe-area-inset-bottom)); }
+      .cta{ flex-wrap: wrap; gap: 10px; }
+      .cta .btn{ width: 100%; justify-content: center; }
+      .notes header, .notes .row{ grid-template-columns: 1fr; }
+      .notes header div, .notes .row div{ padding: .8rem 1rem; }
+      .thumbs{ gap: 8px; }
+      .g-nav{ width:34px; height:34px; }
+      .f-card{ grid-template-rows: auto 140px 1fr; padding:22px 18px; }
+      .f-img{ max-height:140px; }
+      .related, .perks{ padding-bottom: 72px; }
+    }
+    @media (max-width: 380px){ h1{ font-size: clamp(28px, 8vw, 34px); } }
+  </style>
+</body>
+</html>

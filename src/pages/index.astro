@@ -2,12 +2,19 @@
 const SITE_NAME = "Itrora Parfums";
 const NAV = ["À propos", "Collections", "Contact"];
 
-// WhatsApp : +33 6 50 95 93 63  -> 33650959363
 const WHATSAPP_PHONE = "33650959363";
 const WHATSAPP_MSG =
   "Bonjour, je souhaite en savoir plus sur la nouvelle collection Itrora Parfums.";
-const WHATSAPP_URL = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(WHATSAPP_MSG)}`;
+const WHATSAPP_URL =
+  `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(WHATSAPP_MSG)}`;
+
+const STRIPE = {
+  "dragon-rose":   "https://buy.stripe.com/eVqeVd58F7Yy9os3v4bQY02",
+  "coco-des-iles": "https://buy.stripe.com/9B64gz7gN7YydEI6HgbQY01",
+  "musc-fruite":   "https://buy.stripe.com/3cIbJ1gRna6GeIMc1AbQY03",
+};
 ---
+<!doctype html>
 <html lang="fr">
   <head>
     <meta charset="utf-8" />
@@ -25,7 +32,6 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
       body{
         margin:0;background:var(--bg);color:var(--ink);
         font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
-        /* espace sous le header fixe (valeur mise à jour en JS) */
         padding-top: var(--header-h, 88px);
       }
 
@@ -34,7 +40,6 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
         position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
         background: var(--bg);
         display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:1rem;padding:1.2rem var(--gutter);
-        /* tout le style d’origine reste identique */
       }
       .brand{display:inline-flex;align-items:center;text-decoration:none}
       .brand-logo{display:block;height:144px;width:auto}
@@ -54,7 +59,7 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
       .poster-title{position:absolute;left:20px;top:50%;transform:translateY(-50%) rotate(-90deg);transform-origin:center;display:flex;flex-direction:column;justify-content:space-evenly;align-items:center;height:60vh;margin:0;font-family:"Playfair Display",serif;font-weight:700;font-size:clamp(72px,8vw,140px);color:var(--accent)}
       .poster-title .block{display:block}
       .hero-right{display:grid;grid-template-rows:auto 1fr auto;gap:1.2rem}
-      .m-title{display:none;font-family:"Playfair Display",serif;font-weight:700;margin:.25rem 0 .25rem;color:var(--ink)} /* MOBILE ONLY (affiché + bas) */
+      .m-title{display:none;font-family:"Playfair Display",serif;font-weight:700;margin:.25rem 0 .25rem;color:var(--ink)}
       .stage{position:relative;aspect-ratio:4/5;width:100%;border-radius:22px;overflow:hidden;background:#fff;box-shadow:inset 0 0 0 1px rgba(0,0,0,.03),0 20px 50px rgba(0,0,0,.06)}
       .scene-img{width:100%;height:100%;object-fit:cover;border-radius:22px;display:block}
       .lead{max-width:560px;color:var(--muted);font-size:1rem;line-height:1.6}
@@ -92,7 +97,7 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
       .btn-ghost{display:inline-block;text-decoration:none;font-weight:600;border-radius:12px;padding:.9rem 1.4rem;background:var(--ink);color:#fff;box-shadow:0 12px 24px rgba(0,0,0,.12)}
       .btn-ghost:hover{filter:brightness(1.05)}
 
-      /* Notes (optionnel si tu réutilises) */
+      /* Notes (optionnel) */
       .section-notes{padding:2.5rem var(--gutter) 3.5rem}
       .notes-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:2.5rem 2rem;align-items:start;text-align:center}
       .note-icon{color:var(--accent);margin:0 auto .75rem;display:grid;place-items:center}
@@ -132,7 +137,7 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
       .price{display:flex;gap:.5rem;justify-content:center;align-items:baseline;margin:.1rem 0 .8rem}
       .price .old{color:var(--muted);text-decoration:line-through}
       .price .new{color:var(--ink);font-weight:700}
-      .btn-small{appearance:none;border:0;background:var(--ink);color:#fff;font-weight:600;border-radius:10px;padding:.6rem 1rem;cursor:pointer}
+      .btn-small{appearance:none;border:0;background:var(--ink);color:#fff;font-weight:600;border-radius:10px;padding:.6rem 1rem;cursor:pointer;text-decoration:none;display:inline-block}
       .btn-small:hover{filter:brightness(1.05)}
       @media (max-width:1000px){.shop-grid{grid-template-columns:1fr}.video-card{height:auto}.video-card video{height:auto;aspect-ratio:16/9;object-fit:cover}}
 
@@ -176,21 +181,18 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
       .search__hint{margin:8px 2px 2px;color:#6F6A65;font-size:.9rem}
       .search__hint kbd{background:#f4f3f2;border:1px solid rgba(0,0,0,.12);border-radius:6px;padding:2px 6px;font-family:inherit}
 
-      /* ============== MOBILE ONLY (ne change rien sur PC) ============== */
+      /* MOBILE */
       @media (max-width: 700px){
         html, body{max-width:100%; overflow-x:hidden;}
         :root{ --gutter: 16px; }
-
         .header{grid-template-columns:auto 1fr auto; gap:.6rem; padding:12px var(--gutter);}
         .nav{gap:1rem; overflow-x:auto; -webkit-overflow-scrolling:touch;}
         .nav a{flex:0 0 auto; padding-bottom:2px;}
-
         .hero{grid-template-columns:1fr; gap:14px; min-height:unset; padding:12px var(--gutter) 20px;}
-        .poster-title{display:none;}             /* cache le gros mot pivoté */
+        .poster-title{display:none;}
         .m-title{display:block; font-size:clamp(26px,7vw,34px);}
         .stage{aspect-ratio:3/4;}
         .lead{max-width:none; font-size:1rem;}
-
         .section-story{padding:20px var(--gutter) 28px;}
         .story-grid{grid-template-columns:1fr; gap:18px;}
         .slider{aspect-ratio:1/1; border-radius:16px;}
@@ -199,16 +201,12 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
         .accordion{margin:12px 0 8px;}
         .acc-item{font-size:20px; padding:.8rem 0;}
         .acc-panel img{max-height:220px;}
-
         .section-shop{padding:24px var(--gutter) 36px;}
         .products{grid-template-columns:1fr; gap:14px;}
         .btn-small{width:100%; padding:.75rem 1rem;}
-
         .site-footer{padding:28px var(--gutter) 24px;}
         .site-footer .social{width:42px; height:42px;}
       }
-
-      /* ===== MOBILE TWEAKS ===== */
       @media (max-width: 700px){
         html, body{max-width:100%; overflow-x:hidden;}
         :root{ --gutter:16px; }
@@ -291,13 +289,13 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
         </div>
       </section>
       <section class="hero-right">
-        <h2 class="m-title">Nouvelle collection</h2> <!-- MOBILE ONLY -->
+        <h2 class="m-title">Nouvelle collection</h2>
         <div class="stage"><img src="/2025.svg" alt="Coco des Îles" class="scene-img" /></div>
         <p class="lead">Coco des Îles vous dépose d’emblée sur des rivages lointains, baignés de douceur et d’un voile de mystère. L’amande et l’anis ouvrent la danse avant qu’une coco généreuse et gourmande ne s’épanouisse, souvenir de soirées tièdes à la belle étoile.</p>
       </section>
     </main>
 
-    <!-- SECTION 2 -->
+    <!-- SECTION STORY -->
     <section class="section-story">
       <div class="story-grid">
         <div class="story-media">
@@ -348,7 +346,8 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
             </div>
           </div>
 
-          <a href={WHATSAPP_URL} class="btn-ghost" target="_blank" rel="noopener noreferrer">JE VEUX COMMANDER</a>
+          <!-- CTA Dragon Rose -> Stripe -->
+          <a class="btn-ghost btn-buy" data-buy="dragon-rose" target="_blank" rel="noopener noreferrer">JE VEUX COMMANDER</a>
         </div>
       </div>
     </section>
@@ -387,19 +386,41 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
         </figure>
 
         <div class="products">
+          <!-- COCO DES ÎLES -->
           <article class="product-card">
-            <a class="product-media" href="/produits/coco-des-iles" aria-label="Voir Coco des Îles"><img src="/coco-des-iles1.png" alt="Coco des Îles — Extrait de parfum" /></a>
-            <div class="card-body"><h4 class="p-title"><a href="/produits/coco-des-iles">Coco des Îles</a></h4><div class="price"><span class="new">40,00€</span></div><button class="btn-small btn-buy" type="button" data-item="Coco des Îles (40,00€)">Je veux acheter</button></div>
+            <a class="product-media" href="/produits/coco-des-iles" aria-label="Voir Coco des Îles">
+              <img src="/coco-des-iles1.png" alt="Coco des Îles — Extrait de parfum" />
+            </a>
+            <div class="card-body">
+              <h4 class="p-title"><a href="/produits/coco-des-iles">Coco des Îles</a></h4>
+              <div class="price"><span class="new">40,00€</span></div>
+              <a class="btn-small btn-buy" data-buy="coco-des-iles" target="_blank" rel="noopener">Je veux acheter</a>
+            </div>
           </article>
 
+          <!-- DRAGON ROSE (SALE) -->
           <article class="product-card is-sale">
-            <a class="product-media" href="/produits/dragon-rose" aria-label="Voir Dragon Rose"><img src="/dragon-rose2.png" alt="Dragon Rose — Eau de parfum" /><span class="badge">SALE</span></a>
-            <div class="card-body"><h4 class="p-title"><a href="/produits/dragon-rose">Dragon Rose</a></h4><div class="price"><span class="old">40,00€</span><span class="new">35,00€</span></div><button class="btn-small btn-buy" type="button" data-item="Dragon Rose (35,00€)">Je veux acheter</button></div>
+            <a class="product-media" href="/produits/dragon-rose" aria-label="Voir Dragon Rose">
+              <img src="/dragon-rose2.png" alt="Dragon Rose — Eau de parfum" />
+              <span class="badge">SALE</span>
+            </a>
+            <div class="card-body">
+              <h4 class="p-title"><a href="/produits/dragon-rose">Dragon Rose</a></h4>
+              <div class="price"><span class="old">40,00€</span><span class="new">35,00€</span></div>
+              <a class="btn-small btn-buy" data-buy="dragon-rose" target="_blank" rel="noopener">Je veux acheter</a>
+            </div>
           </article>
 
+          <!-- MUSC FRUITÉ -->
           <article class="product-card">
-            <a class="product-media" href="/produits/musc-fruite" aria-label="Voir Musc Fruite"><img src="/musc-fruite1.png" alt="Musc Fruité — Extrait de parfum" /></a>
-            <div class="card-body"><h4 class="p-title"><a href="/produits/musc-fruite">Musc fruité</a></h4><div class="price"><span class="new">40,00€</span></div><button class="btn-small btn-buy" type="button" data-item="Musc Fruité (40,00€)">Je veux acheter</button></div>
+            <a class="product-media" href="/produits/musc-fruite" aria-label="Voir Musc Fruité">
+              <img src="/musc-fruite1.png" alt="Musc Fruité — Extrait de parfum" />
+            </a>
+            <div class="card-body">
+              <h4 class="p-title"><a href="/produits/musc-fruite">Musc fruité</a></h4>
+              <div class="price"><span class="new">40,00€</span></div>
+              <a class="btn-small btn-buy" data-buy="musc-fruite" target="_blank" rel="noopener">Je veux acheter</a>
+            </div>
           </article>
         </div>
       </div>
@@ -412,33 +433,32 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
           <div class="brand-top">
             <img class="footer-logo" src="/logo-parfum.png" srcset="/logo-parfum.png 1x, /logo-parfum.png 2x" alt="{SITE_NAME}" width="180" height="45" />
           </div>
-<div class="brand-bottom">
-  <p class="sub">Maison française de parfums — matières nobles, lignes épurées.</p>
+          <div class="brand-bottom">
+            <p class="sub">Maison française de parfums — matières nobles, lignes épurées.</p>
 
-  <div class="socials">
-    <a class="social" href="https://www.instagram.com/itrora_parfums/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="2.8" y="2.8" width="18.4" height="18.4" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.5" cy="6.5" r="1.2"/></svg>
-    </a>
+            <div class="socials">
+              <a class="social" href="https://www.instagram.com/itrora_parfums/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="2.8" y="2.8" width="18.4" height="18.4" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.5" cy="6.5" r="1.2"/></svg>
+              </a>
 
-    <a class="social" href="https://www.facebook.com/profile.php?id=61580022094559" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M15 3h-2.2a3.8 3.8 0 0 0-3.8 3.8V9H7v3h2v7h3v-7h2.5l.5-3H12V6.8c0-.44.36-.8.8-.8H15V3z"/></svg>
-    </a>
+              <a class="social" href="https://www.facebook.com/profile.php?id=61580022094559" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M15 3h-2.2a3.8 3.8 0 0 0-3.8 3.8V9H7v3h2v7h3v-7h2.5l.5-3H12V6.8c0-.44.36-.8.8-.8H15V3z"/></svg>
+              </a>
 
-    <a class="social" href="https://www.tiktok.com/@itrora_parfums?_t=ZN-8zL5BMxvxJe&_r=1" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 3h-2v9.1a3 3 0 1 1-2-2.8V7.6A6 6 0 1 0 17 13V8.7c1 .8 2.2 1.3 3.5 1.5V7.8A5.5 5.5 0 0 1 14 3z"/></svg>
-    </a>
+              <a class="social" href="https://www.tiktok.com/@itrora_parfums?_t=ZN-8zL5BMxvxJe&_r=1" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 3h-2v9.1a3 3 0 1 1-2-2.8V7.6A6 6 0 1 0 17 13V8.7c1 .8 2.2 1.3 3.5 1.5V7.8A5.5 5.5 0 0 1 14 3z"/></svg>
+              </a>
 
-    <a class="social" href="https://t.snapchat.com/jO0R9PnP" target="_blank" rel="noopener noreferrer" aria-label="Snapchat">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 14c-1 2-3 1-3 2s2 1 3 2 1 3 6 3 5-2 6-3 3-1 3-2-2 0-3-2c0-1 1-2 1-4 0-3-2-6-7-6s-7 3-7 6c0 2 1 3 1 4Z"/></svg>
-    </a>
-  </div>
-</div>
-
-            <div class="contact">
-              <p>Colombes (92700)</p>
-              <p><a href="mailto:contact@itrora.com" class="link">contact@itrora.com</a></p>
-              <p><a class="link" href="tel:+33650959363">06 50 95 93 63</a></p>
+              <a class="social" href="https://t.snapchat.com/jO0R9PnP" target="_blank" rel="noopener noreferrer" aria-label="Snapchat">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 14c-1 2-3 1-3 2s2 1 3 2 1 3 6 3 5-2 6-3 3-1 3-2-2 0-3-2c0-1 1-2 1-4 0-3-2-6-7-6s-7 3-7 6c0 2 1 3 1 4Z"/></svg>
+              </a>
             </div>
+          </div>
+
+          <div class="contact">
+            <p>Colombes (92700)</p>
+            <p><a href="mailto:contact@itrora.com" class="link">contact@itrora.com</a></p>
+            <p><a class="link" href="tel:+33650959363">06 50 95 93 63</a></p>
           </div>
         </section>
 
@@ -462,7 +482,17 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
 
     <!-- JS -->
     <script>
-      // -> Espace sous header fixe : mesure la hauteur et met --header-h
+      // ===== CONFIG (en JS natif)
+      const STRIPE = {
+        "dragon-rose":   "https://buy.stripe.com/eVqeVd58F7Yy9os3v4bQY02",
+        "coco-des-iles": "https://buy.stripe.com/9B64gz7gN7YydEI6HgbQY01",
+        "musc-fruite":   "https://buy.stripe.com/3cIbJ1gRna6GeIMc1AbQY03"
+      };
+      const WHATSAPP_PHONE = "33650959363";
+      const WHATSAPP_MSG = "Bonjour, je souhaite en savoir plus sur la nouvelle collection Itrora Parfums.";
+      const WHATSAPP_URL  = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(WHATSAPP_MSG)}`;
+
+      // -> Espace sous header fixe
       (function(){
         const header = document.querySelector('.header');
         if(!header) return;
@@ -472,8 +502,7 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
         }
         window.addEventListener('load', setHeaderSpace, { once: true });
         window.addEventListener('resize', setHeaderSpace);
-        const ro = new ResizeObserver(setHeaderSpace);
-        ro.observe(header);
+        new ResizeObserver(setHeaderSpace).observe(header);
       })();
 
       // Slider (+ swipe mobile)
@@ -503,7 +532,7 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
         prev?.addEventListener('click',()=>go(i-1));
         next?.addEventListener('click',()=>go(i+1));
 
-        // Swipe mobile (n'affecte pas desktop)
+        // Swipe mobile
         let x0=null;
         slider.addEventListener('touchstart',e=>x0=e.touches[0].clientX,{passive:true});
         slider.addEventListener('touchend',e=>{
@@ -526,18 +555,33 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
         });
       })();
 
-      // WhatsApp Buy
+      // ***** ROUTAGE STRIPE (clé du besoin)
       (function(){
-        const PHONE = "33650959363";
+        document.querySelectorAll('.btn-buy[data-buy]').forEach(a=>{
+          const sku = a.getAttribute('data-buy');
+          const url = STRIPE[sku];
+          if(url){
+            a.setAttribute('href', url);
+            a.setAttribute('target','_blank');
+            a.setAttribute('rel','noopener');
+          }else{
+            a.addEventListener('click',(e)=>{ e.preventDefault(); alert("Lien de paiement indisponible pour cet article."); });
+          }
+        });
+      })();
+
+      // Boutons WhatsApp (si tu en ajoutes) — utilisation de .btn-wa
+      (function(){
         function waOrder(item){
-          const msg = `Bonjour, je veux commander ${item}.`;
-          const url = `https://wa.me/${PHONE}?text=${encodeURIComponent(msg)}`;
+          const msg = item ? `Bonjour, je veux commander ${item}.` : WHATSAPP_MSG;
+          const url = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(msg)}`;
           window.open(url, '_blank', 'noopener');
         }
         document.addEventListener('click', (e) => {
-          const btn = e.target.closest('.btn-buy');
+          const btn = e.target.closest('.btn-wa');
           if (!btn) return;
-          waOrder(btn.dataset.item || 'un produit');
+          e.preventDefault();
+          waOrder(btn.getAttribute('data-item') || '');
         });
       })();
 
