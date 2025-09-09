@@ -3,7 +3,7 @@ import Layout from "../layouts/Layout.astro";
 
 const pageTitle = "Contact — Itrora";
 
-/* Constantes pour le footer */
+/* Constantes pour le footer / WhatsApp */
 const SITE_NAME = "Itrora Parfums";
 const WHATSAPP_PHONE = "33650959363";
 const WHATSAPP_MSG =
@@ -11,7 +11,29 @@ const WHATSAPP_MSG =
 const WHATSAPP_URL = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(WHATSAPP_MSG)}`;
 ---
 
-<Layout title={pageTitle}>
+<Layout
+  title={pageTitle}
+  description="Service client Itrora 7j/7. Contact par téléphone, email ou réseaux sociaux."
+  canonical="https://itrora.com/contact"
+>
+  <!-- JSON-LD -->
+  <script is:inline type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Itrora Parfums",
+    "url": "https://itrora.com/",
+    "contactPoint": [{
+      "@type": "ContactPoint",
+      "contactType": "customer support",
+      "telephone": "+33-6-50-95-93-63",
+      "email": "contact@itrora.com",
+      "availableLanguage": ["fr"],
+      "areaServed": "FR"
+    }]
+  }
+  </script>
+
   <!-- HERO : gros CONTACT stylé -->
   <header class="hero" aria-label="Section contact">
     <div class="hero__wrap">
@@ -20,32 +42,40 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
     </div>
   </header>
 
+
   <!-- SECTION : 2 colonnes (texte gauche / image droite) -->
   <section class="two-col">
     <div class="two-col__wrap">
       <!-- Gauche : Titre + Texte -->
-      <div>
-        <h2 class="two-col__title">Par E-mail</h2>
-        <p class="two-col__text">
-          Envoyez-nous un e-mail ici : <strong>contact@itrora.com</strong>
-        </p>
-      </div>
+  <div>
+  <h2 class="two-col__title">Par e-mail</h2>
+  <p class="two-col__text">
+    Envoyez-nous un e-mail :
+    <a href="mailto:contact@itrora.com"><strong>contact@itrora.com</strong></a>
+  </p>
+    <h2 class="two-col__title">Par téléphone</h2>
+  <p class="two-col__text">
+    <a href="tel:+33650959363"><strong>06 50 95 93 63</strong></a>
+    <span>(lun–ven, 10h–18h)</span>
+  </p>
+ <h2 class="two-col__title">WhatsApp</h2>
+  <p class="two-col__text">
+    <a class="btn-wa"
+       href={WHATSAPP_URL}
+       target="_blank"
+       rel="noopener noreferrer"
+       aria-label="Nous écrire sur WhatsApp (ouvre une discussion)">
+      Nous écrire sur WhatsApp
+    </a>
+  </p>
+</div>
 
-      <!-- Droite : Image depuis /public -->
+  <!-- Droite : Image depuis /public -->
       <div class="two-col__media">
         <img src="/contact.png" alt="Nous contacter — Itrora Parfums" loading="lazy" decoding="async" />
       </div>
     </div>
   </section>
-
-
-    <div class="footer-bottom">
-      <small>© {new Date().getFullYear()} {SITE_NAME}. Tous droits réservés.</small>
-    </div>
-  </footer>
-<title>Contact | Itrora Parfums</title>
-<meta name="description" content="Service client Itrora 7j/7. Contact par téléphone, email ou réseaux sociaux.">
-<link rel="canonical" href="https://itrora.com/contact">
 
   <style>
     /* Montserrat */
@@ -60,6 +90,7 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
       --radius: 16px;
     }
     *{ box-sizing:border-box }
+
 
     /* ====== HERO CONTACT (gros titre animé) ====== */
     .hero{ background: var(--bg); font-family:"Montserrat",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; }
@@ -90,7 +121,7 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
       100%{ background-position:-20% 0; opacity:0; }
     }
 
-    /* ====== SECTION 2 colonnes ====== */
+  /* ====== SECTION 2 colonnes ====== */
     .two-col{ background: var(--bg); color: var(--ink); font-family:"Montserrat",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; }
     .two-col__wrap{
       max-width: var(--max); margin: 0 auto; padding: 32px 20px 40px;
@@ -111,5 +142,17 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
       aspect-ratio: 16 / 10; background:#f2f2f2; box-shadow: 0 8px 28px rgba(0,0,0,.07);
     }
     .two-col__media img{ width:100%; height:100%; object-fit:cover; display:block; }
+    .btn-wa{
+  display:inline-block;
+  padding:.7rem 1rem;
+  border-radius:12px;
+  font-weight:700;
+  text-decoration:none;
+  background:#25D366; /* vert WhatsApp */
+  color:#fff;
+  box-shadow:0 8px 16px rgba(0,0,0,.12);
+}
+.btn-wa:hover{ filter:brightness(1.05); }
 
-    
+  </style>
+</Layout>
