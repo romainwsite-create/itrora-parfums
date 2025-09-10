@@ -1,9 +1,13 @@
 ---
 import Layout from "../layouts/Layout.astro";
-const pageTitle = "Collections — Itrora";
+const pageTitle = "À propos — Itrora";
 ---
-
-<Layout title={pageTitle} description="Toutes nos fragrances Itrora Parfums.">
+<Layout title={pageTitle} description="Itrora Parfums : maison française, savoir-faire, matières choisies et flacons intemporels.">
+  <Fragment slot="head">
+    <link rel="canonical" href="https://itrora.com/a-propos" />
+    <meta name="description" content="Itrora Parfums : maison française, savoir-faire, matières choisies et flacons intemporels." />
+    <title>À propos — Itrora Parfums</title>
+  </Fragment>
   <!-- ===== HERO COLLECTIONS (image pleine largeur) ===== -->
   <section class="hc">
     <div class="hc__media">
@@ -19,7 +23,7 @@ const pageTitle = "Collections — Itrora";
         <a href="/contact">Contact</a>
         <a href="/foireauxquestions">FAQ</a>
       </nav>
-      <h1 class="hc__title">Notre Histoire</h1>
+      <h1 class="hc__title">À propos d’Itrora Parfums</h1>
     </div>
   </section>
 
@@ -74,10 +78,6 @@ const pageTitle = "Collections — Itrora";
       </div>
     </div>
   </section>
-
-<title>À propos – Maison Itrora Parfums</title>
-<meta name="description" content="Itrora Parfums : maison française, savoir-faire, matières premières sélectionnées, flacons intemporels.">
-<link rel="canonical" href="https://itrora.com/a-propos">
 
   <style>
     /* ===== HERO COLLECTIONS : plein écran + blur nav ===== */
@@ -243,33 +243,6 @@ const pageTitle = "Collections — Itrora";
 }
 /* === Art × Fragrances — réduire la taille du texte à gauche === */
 .af-right__copy{ max-width: 640px; } /* un peu moins large = plus lisible */
-
-.af-right__title{
-  /* avant: clamp(34px, 6.2vw, 64px) */
-  font-size: clamp(26px, 4vw, 44px);
-  line-height: 1.08;
-  margin-bottom: clamp(8px, 1.4vw, 14px);
-}
-
-.af-right__p{
-  /* avant: clamp(15px, 1.25vw, 18px) */
-  font-size: clamp(14px, 1.05vw, 17px);
-  line-height: 1.75;
-  margin: 0 0 clamp(10px, 1vw, 14px);
-}
-
-/* sur grands écrans, bloque une taille raisonnable */
-@media (min-width: 1280px){
-  .af-right__title{ font-size: 42px; }
-  .af-right__p{ font-size: 16px; }
-}
-
-/* sur mobile, garde un bon ratio sans que ça prenne tout l'écran */
-@media (max-width: 680px){
-  .af-right__copy{ max-width: 92vw; }
-  .af-right__title{ font-size: clamp(24px, 7vw, 34px); }
-  .af-right__p{ font-size: clamp(15px, 4.2vw, 17px); }
-}
 
   </style>
 
