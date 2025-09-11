@@ -268,8 +268,270 @@ const RELATED = [
     @media (max-width: 380px){
       h1{ font-size: clamp(28px, 8vw, 34px); }
     }
+    .sr-only{
+  position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;
+  overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;
+}
+
   </style>
 </head>
+
+<body>
+  <div class="wrap">
+    <p style="margin:0 0 12px;color:var(--muted);font-size:.95rem">
+      <a href="/">Accueil</a> › <a href="/#parfums">Parfums</a> › {P.name}
+    </p>
+
+<div class="grid">
+  <!-- Galerie -->
+  <div class="media">
+    <figure class="gallery" data-gallery aria-labelledby="h-galerie">
+      <h2 class="sr-only" id="h-galerie">Galerie produit</h2>
+
+      <div class="gal-main">
+        <img
+          data-main
+          src={IMAGES[0]}
+          alt={`${P.name} — image`}
+          fetchpriority="high"
+          decoding="async"
+        />
+        <button class="g-nav prev" type="button" aria-label="Image précédente" data-prev>
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+            <path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <button class="g-nav next" type="button" aria-label="Image suivante" data-next>
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+            <path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="thumbs">
+        {IMAGES.map((src, i) => (
+          <button class={`th ${i===0 ? "is-active" : ""}`} data-th={i} aria-label={`Voir image ${i+1}`}>
+            <img src={src} alt="" loading="lazy" />
+          </button>
+        ))}
+      </div>
+    </figure>
+  </div>
+
+  <!-- Détails produit -->
+  <div class="content">
+    <div class="subtitle">{P.subtitle}</div>
+    <h1>{P.name}</h1>
+
+    <h2 class="sr-only" id="h-pres">Présentation</h2>
+    <p class="lead"><strong>Signature gourmande & rosée.</strong> {P.short}</p>
+    <div class="price">{P.price}</div>
+
+    <div class="cta">
+      <a class="btn" href={P.stripe} target="_blank" rel="noopener">Je veux acheter</a>
+      <a class="btn secondary" href="#" target="_blank" rel="noopener">Poser une question</a>
+    </div>
+
+    <h2 class="sr-only" id="h-notes">Pyramide olfactive</h2>
+    <div class="notes" aria-labelledby="h-notes">
+      <header><div>Note de tête</div><div>Note de cœur</div><div>Note de fond</div></header>
+      <div class="row"><div>{P.notes.tete}</div><div>{P.notes.coeur}</div><div>{P.notes.fond}</div></div>
+    </div>
+
+    <div class="badge">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M7.5 6a3.5 3.5 0 0 1 3.3 2.4 4.5 4.5 0 1 1 2.7 6.6 3.5 3.5 0 1 1-6-3.9A3.5 3.5 0 0 1 7.5 6Z"/>
+      </svg>
+      PRODUIT UNISEXE
+    </div>
+
+    <ul class="ticklist">
+      {P.bullets.map((b) => (
+        <li><span class="tick" aria-hidden="true"></span><span>{b}</span></li>
+      ))}
+    </ul>
+
+    <section class="features" aria-labelledby="h-features">
+      <h2 class="sr-only" id="h-features">Caractéristiques</h2>
+      <article class="f-card">
+        <h3 class="f-title">Des parfums qui durent</h3>
+        <img class="f-img" src="/teneur.png" alt="Longue tenue" loading="lazy" />
+        <p class="f-text">Nos produits sont des extraits de parfums. Une noble concentration, pure et faite pour durer <strong>plus de 8h</strong>.</p>
+      </article>
+      <article class="f-card">
+        <h3 class="f-title">Une vaporisation dernier cri</h3>
+        <img class="f-img" src="/vaporisation.png" alt="Vaporisation haute précision" loading="lazy" />
+        <p class="f-text">Chaque flacon est équipé d’un brumisateur dernière génération qui offre une expérience sensorielle unique.</p>
+      </article>
+    </section>
+
+    <!-- Réseaux (dans la colonne de droite / contenu) -->
+    <div class="socials">
+      <a class="social" href="https://www.instagram.com/itrora_parfums/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="2.8" y="2.8" width="18.4" height="18.4" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.5" cy="6.5" r="1.2"/></svg>
+      </a>
+      <a class="social" href="https://www.facebook.com/profile.php?id=61580022094559" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M15 3h-2.2a3.8 3.8 0 0 0-3.8 3.8V9H7v3h2v7h3v-7h2.5l.5-3H12V6.8c0-.44.36-.8.8-.8H15V3z"/></svg>
+      </a>
+      <a class="social" href="https://www.tiktok.com/@itrora_parfums?_t=ZN-8zL5BMxvxJe&_r=1" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 3h-2v9.1a3 3 0 1 1-2-2.8V7.6A6 6 0 1 0 17 13V8.7c1 .8 2.2 1.3 3.5 1.5V7.8A5.5 5.5 0 0 1 14 3z"/></svg>
+      </a>
+      <a class="social" href="https://t.snapchat.com/jO0R9PnP" target="_blank" rel="noopener noreferrer" aria-label="Snapchat">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 14c-1 2-3 1-3 2s2 1 3 2 1 3 6 3 5-2 6-3 3-1 3-2-2 0-3-2c0-1 1-2 1-4 0-3-2-6-7-6s-7 3-7 6c0 2 1 3 1 4Z"/></svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+    <!-- ===== Onglets ===== -->
+    <section class="tabs" data-tabs>
+      <div class="tabs-bar">
+        <div class="tabs-pills" role="tablist" aria-label="Détails du produit">
+        <button class="tab is-active" id="tab-desc" role="tab" aria-selected="true" aria-controls="panel-desc" data-tab="desc">DESCRIPTION</button>
+<button class="tab" id="tab-avis" role="tab" aria-selected="false" aria-controls="panel-avis" data-tab="avis">AVIS (0)</button>
+ </div>
+      </div>
+      <div class="tab-panels">
+<section class="panel is-active" data-panel="desc" role="tabpanel" id="panel-desc" aria-labelledby="tab-desc">
+  <h2 class="sr-only">Description</h2>          <p><strong>{P.name}</strong> — {P.short}</p>
+          <p>Laissez-vous envoûter par Dragon Rose : une explosion fruitée où la framboise rencontre la noix de coco dans un tourbillon exotique. Le cœur suave de caramel et de sucre roux réveille nos plus tendres souvenirs, avant de s’embraser dans un sillage sensuel de musc et de rose. Un parfum magnétique, à la fois délicat et enflammé, qui captive à chaque instant.</p>
+          <h3 style="margin-top:1.4rem">Composition de l’extrait de parfum {P.name} :</h3>
+          <p style="margin:.4rem 0 0">ALCOHOL DENAT., PARFUM (FRAGRANCE), AQUA (WATER), LIMONENE, CITRAL.</p>
+          <p style="margin-top:1rem"><strong>Quantité du flacon : 50ML</strong></p>
+        </section>
+<section class="panel" data-panel="avis" role="tabpanel" id="panel-avis"
+         aria-labelledby="tab-avis" hidden aria-hidden="true">
+  <h2 class="sr-only">Avis</h2>
+  <p>Pas encore d’avis pour ce parfum.</p>
+</section>
+
+    <!-- ===== Produits similaires ===== -->
+   <section class="related" aria-labelledby="h-related">
+  <h2 id="h-related">Produits similaires</h2>
+
+      <div class="rel-grid">
+        {RELATED.map((p) => (
+          <article class="rel-card">
+            <a class="rel-media" href={p.slug} aria-label={`Voir ${p.name}`}><img src={p.image} alt={p.name} loading="lazy" /></a>
+            <div class="rel-tags">{p.tags}</div>
+            <h3 class="rel-title"><a href={p.slug} style="text-decoration:none;color:inherit">{p.name}</a></h3>
+            <div class="rel-price">{p.price}</div>
+            <a class="rel-btn" href={p.stripe} target="_blank" rel="noopener">JE VEUX ACHETER</a>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <!-- ===== Atouts ===== -->
+<section class="perks" aria-labelledby="h-perks">
+  <h2 class="sr-only" id="h-perks">Nos engagements</h2>      <div class="perks-grid">
+        <article class="perk">
+          <div class="ico" aria-hidden="true">
+            <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7h11v8H3z"/><path d="M14 10h4l3 3v2h-7V10z"/><circle cx="7" cy="17" r="2"/><circle cx="16" cy="17" r="2"/></svg>
+          </div>
+          <h3>Livraison gratuite</h3>
+          <p>Livraison point relais gratuite dès 70€ d’achat</p>
+        </article>
+        <article class="perk">
+          <div class="ico" aria-hidden="true">
+            <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 12v7H4v-7"/><path d="M4 10h16v2H4z"/><path d="M12 10s-2.5-1.8-2.5-3.5S11 4 12 5c1-1 2.5 0 2.5 1.5S12 10 12 10z"/></svg>
+          </div>
+          <h3>Parfum offert</h3>
+          <p>Dès 100€ d’achat, dans la limite des stocks disponibles</p>
+        </article>
+        <article class="perk">
+          <div class="ico" aria-hidden="true">
+            <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 12a5 5 0 1 0-5-5"/><path d="M3 21a7 7 0 0 1 14 0"/><circle cx="12" cy="7" r="3"/></svg>
+          </div>
+          <h3>Service client 24/24 – 7j/7</h3>
+          <p>Contactez-nous par téléphone ou par mail, à toute heure</p>
+        </article>
+        <article class="perk">
+          <div class="ico" aria-hidden="true">
+            <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l7 4v6c0 5-3.5 9-7 10-3.5-1-7-5-7-10V6l7-4z"/><path d="M9 12l2 2 4-4"/></svg>
+          </div>
+          <h3>Paiements sécurisés</h3>
+          <p>Vos paiements en ligne sont 100% protégés</p>
+        </article>
+      </div>
+    </section>
+  </div> <!-- /wrap -->
+
+  <!-- ========== PIED DE PAGE ========== -->
+<footer class="site-footer">
+  <div class="footer-grid">
+    <section class="footer-brand">
+      <div class="brand-top">
+        <img
+          class="footer-logo"
+          src="/logo-parfum.png"
+          srcset="/logo-parfum.png 1x, /logo-parfum.png 2x"
+          alt="{SITE_NAME}"
+          width="180"
+          height="45"
+        />
+      </div>
+
+      <div class="brand-bottom">
+        <p class="sub">Maison française de parfums — matières nobles, lignes épurées.</p>
+
+        <div class="socials">
+          <a class="social" href="https://www.instagram.com/itrora_parfums/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="2.8" y="2.8" width="18.4" height="18.4" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.5" cy="6.5" r="1.2"/></svg>
+          </a>
+          <a class="social" href="https://www.facebook.com/profile.php?id=61580022094559" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M15 3h-2.2a3.8 3.8 0 0 0-3.8 3.8V9H7v3h2v7h3v-7h2.5l.5-3H12V6.8c0-.44.36-.8.8-.8H15V3z"/></svg>
+          </a>
+          <a class="social" href="https://www.tiktok.com/@itrora_parfums?_t=ZN-8zL5BMxvxJe&_r=1" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 3h-2v9.1a3 3 0 1 1-2-2.8V7.6A6 6 0 1 0 17 13V8.7c1 .8 2.2 1.3 3.5 1.5V7.8A5.5 5.5 0 0 1 14 3z"/></svg>
+          </a>
+          <a class="social" href="https://t.snapchat.com/jO0R9PnP" target="_blank" rel="noopener noreferrer" aria-label="Snapchat">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 14c-1 2-3 1-3 2s2 1 3 2 1 3 6 3 5-2 6-3 3-1 3-2-2 0-3-2c0-1 1-2 1-4 0-3-2-6-7-6s-7 3-7 6c0 2 1 3 1 4Z"/></svg>
+          </a>
+        </div>
+
+        <div class="contact">
+          <p>Colombes (92700)</p>
+          <p><a href="mailto:contact@itrora.com" class="link">contact@itrora.com</a></p>
+          <p><a class="link" href="tel:+33650959363">06 50 95 93 63</a></p>
+        </div>
+      </div>
+    </section>
+
+    <nav class="footer-col" aria-label="Liens rapides">
+      <h4 class="footer-title">Liens rapides</h4>
+      <ul class="footer-list">
+        <li><a href="/">Accueil</a></li>
+        <li><a href="/collections">Les Parfums</a></li>
+      </ul>
+    </nav>
+
+    <nav class="footer-col" aria-label="Informations">
+      <h4 class="footer-title">Informations</h4>
+      <ul class="footer-list">
+        <li><a href="/a-propos">Notre histoire</a></li>
+        <li><a href="/foireauxquestions">FAQ</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <nav class="footer-col" aria-label="Légal">
+      <h4 class="footer-title">Legal</h4>
+      <ul class="footer-list">
+        <li><a href="/conditions-generales-de-vente">C.G.V</a></li>
+        <li><a href="/mentions-legales">Mentions légales</a></li>
+        <li><a href="/confidentialite">Confidentialité</a></li>
+        <li><a href="/politique-de-cookies">Politique de cookies</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="footer-bottom">
+    <small>© {new Date().getFullYear()} {SITE_NAME}. Tous droits réservés.</small>
+  </div>
+</footer>
 
 <!-- Mini barre d'achat (après les onglets) -->
 <div class="mini-bar" data-mini-bar aria-hidden="true">
@@ -315,21 +577,29 @@ document.addEventListener("DOMContentLoaded", () => {
     if (next) next.addEventListener("click", () => setActive(index + 1));
   }
 
-  /* ====== ONGLETS ====== */
   const tabsRoot = document.querySelector("[data-tabs]");
-  if (tabsRoot) {
-    const tabs = Array.from(tabsRoot.querySelectorAll("[role='tab']"));
-    const panels = Array.from(document.querySelectorAll("[data-panel]"));
-    const activate = (key) => {
-      tabs.forEach(t => {
-        const on = t.dataset.tab === key;
-        t.classList.toggle("is-active", on);
-        t.setAttribute("aria-selected", on ? "true" : "false");
-      });
-      panels.forEach(p => p.classList.toggle("is-active", p.dataset.panel === key));
-    };
-    tabs.forEach(t => t.addEventListener("click", () => activate(t.dataset.tab)));
-  }
+if (tabsRoot) {
+  const tabs = Array.from(tabsRoot.querySelectorAll("[role='tab']"));
+  const panels = Array.from(document.querySelectorAll("[data-panel]"));
+
+  const activate = (key) => {
+    tabs.forEach(t => {
+      const on = t.dataset.tab === key;
+      t.classList.toggle("is-active", on);
+      t.setAttribute("aria-selected", on ? "true" : "false");
+      t.setAttribute("tabindex", on ? "0" : "-1");
+    });
+    panels.forEach(p => {
+      const on = p.dataset.panel === key;
+      p.classList.toggle("is-active", on);
+      p.setAttribute("aria-hidden", on ? "false" : "true");
+      p.toggleAttribute("hidden", !on);
+    });
+  };
+
+  // rebranche les clics
+  tabs.forEach(t => t.addEventListener("click", () => activate(t.dataset.tab)));
+}
 
   /* ====== MINI-BAR (achat rapide) ====== */
   const mini = document.querySelector("[data-mini-bar]");
@@ -400,313 +670,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (data?.stripe) btn.setAttribute("href", data.stripe);
     }
   });
-
-  /* ====== Lien WhatsApp du footer ====== */
-  const footerWa = document.querySelector('footer .social[aria-label="Instagram"]');
-  if (footerWa) footerWa.setAttribute("href", "{WHATSAPP_URL}");
-});
 </script>
 
-<body>
-  <div class="wrap">
-    <p style="margin:0 0 12px;color:var(--muted);font-size:.95rem">
-      <a href="/">Accueil</a> › <a href="/#parfums">Parfums</a> › {P.name}
-    </p>
-
-    <!-- ===== CONTENU EN DEUX COLONNES ===== -->
-    <div class="grid">
-      <!-- Galerie -->
-      <div class="media">
-        <figure class="gallery" data-gallery>
-          <div class="gal-main">
-            <img data-main src={IMAGES[0]} alt={`${P.name} — image`} />
-            <button class="g-nav prev" type="button" aria-label="Image précédente" data-prev>
-              <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
-                <path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </button>
-            <button class="g-nav next" type="button" aria-label="Image suivante" data-next>
-              <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
-                <path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </button>
-          </div>
-
-          <div class="thumbs">
-            {IMAGES.map((src, i) => (
-              <button class={`th ${i===0 ? "is-active" : ""}`} data-th={i} aria-label={`Voir image ${i+1}`}>
-                <img src={src} alt="" loading="lazy" />
-              </button>
-            ))}
-          </div>
-        </figure>
-      </div>
-
-      <!-- Détails produit -->
-      <div class="content">
-        <div class="subtitle">{P.subtitle}</div>
-        <h1>{P.name}</h1>
-        <p class="lead"><strong>Signature gourmande & rosée.</strong> {P.short}</p>
-        <div class="price">{P.price}</div>
-
-        <div class="cta">
-          <a class="btn" href={P.stripe} target="_blank" rel="noopener">Je veux acheter</a>
-          <a class="btn secondary" href="#" target="_blank" rel="noopener">Poser une question</a>
-        </div>
-
-        <div class="notes">
-          <header><div>Note de tête</div><div>Note de cœur</div><div>Note de fond</div></header>
-          <div class="row"><div>{P.notes.tete}</div><div>{P.notes.coeur}</div><div>{P.notes.fond}</div></div>
-        </div>
-
-        <div class="badge">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7.5 6a3.5 3.5 0 0 1 3.3 2.4 4.5 4.5 0 1 1 2.7 6.6 3.5 3.5 0 1 1-6-3.9A3.5 3.5 0 0 1 7.5 6Z"/></svg>
-          PRODUIT UNISEXE
-        </div>
-
-        <ul class="ticklist">
-          {P.bullets.map((b) => (<li><span class="tick" aria-hidden="true"></span><span>{b}</span></li>))}
-        </ul>
-
-        <section class="features" aria-label="Caractéristiques">
-          <article class="f-card">
-            <h3 class="f-title">Des parfums qui durent</h3>
-            <img class="f-img" src="/teneur.png" alt="Longue tenue" loading="lazy" />
-            <p class="f-text">Nos produits sont des extraits de parfums. Une noble concentration, pure et faite pour durer <strong>plus de 8h</strong>.</p>
-          </article>
-          <article class="f-card">
-            <h3 class="f-title">Une vaporisation dernier cri</h3>
-            <img class="f-img" src="/vaporisation.png" alt="Vaporisation haute précision" loading="lazy" />
-            <p class="f-text">Chaque flacon est équipé d’un brumisateur dernière génération qui offre une expérience sensorielle unique.</p>
-          </article>
-        </section>
-
-        </section>
-      </div>
-    </div>
-      <div class="socials">
-    <a class="social" href="https://www.instagram.com/itrora_parfums/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="2.8" y="2.8" width="18.4" height="18.4" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.5" cy="6.5" r="1.2"/></svg>
-    </a>
-
-    <a class="social" href="https://www.facebook.com/profile.php?id=61580022094559" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M15 3h-2.2a3.8 3.8 0 0 0-3.8 3.8V9H7v3h2v7h3v-7h2.5l.5-3H12V6.8c0-.44.36-.8.8-.8H15V3z"/></svg>
-    </a>
-
-    <a class="social" href="https://www.tiktok.com/@itrora_parfums?_t=ZN-8zL5BMxvxJe&_r=1" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 3h-2v9.1a3 3 0 1 1-2-2.8V7.6A6 6 0 1 0 17 13V8.7c1 .8 2.2 1.3 3.5 1.5V7.8A5.5 5.5 0 0 1 14 3z"/></svg>
-    </a>
-
-    <a class="social" href="https://t.snapchat.com/jO0R9PnP" target="_blank" rel="noopener noreferrer" aria-label="Snapchat">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 14c-1 2-3 1-3 2s2 1 3 2 1 3 6 3 5-2 6-3 3-1 3-2-2 0-3-2c0-1 1-2 1-4 0-3-2-6-7-6s-7 3-7 6c0 2 1 3 1 4Z"/></svg>
-    </a>
-
-          </section>
-        </section>
-      </div>
-    </div>
-
-    <!-- ===== Onglets ===== -->
-    <section class="tabs" data-tabs>
-      <div class="tabs-bar">
-        <div class="tabs-pills" role="tablist" aria-label="Détails du produit">
-          <button class="tab is-active" role="tab" aria-selected="true" data-tab="desc">DESCRIPTION</button>
-          <button class="tab" role="tab" aria-selected="false" data-tab="avis">AVIS (0)</button>
-        </div>
-      </div>
-      <div class="tab-panels">
-        <section class="panel is-active" data-panel="desc">
-          <p><strong>{P.name}</strong> — {P.short}</p>
-          <p>Laissez-vous envoûter par Dragon Rose : une explosion fruitée où la framboise rencontre la noix de coco dans un tourbillon exotique. Le cœur suave de caramel et de sucre roux réveille nos plus tendres souvenirs, avant de s’embraser dans un sillage sensuel de musc et de rose. Un parfum magnétique, à la fois délicat et enflammé, qui captive à chaque instant.</p>
-          <h3 style="margin-top:1.4rem">Composition de l’extrait de parfum {P.name} :</h3>
-          <p style="margin:.4rem 0 0">ALCOHOL DENAT., PARFUM (FRAGRANCE), AQUA (WATER), LIMONENE, CITRAL.</p>
-          <p style="margin-top:1rem"><strong>Quantité du flacon : 50ML</strong></p>
-        </section>
-        <section class="panel" data-panel="avis"><p>Pas encore d’avis pour ce parfum.</p></section>
-      </div>
-    </section>
-
-    <!-- ===== Produits similaires ===== -->
-    <section class="related" aria-label="Produits similaires">
-      <h2>Produits similaires</h2>
-      <div class="rel-grid">
-        {RELATED.map((p) => (
-          <article class="rel-card">
-            <a class="rel-media" href={p.slug} aria-label={`Voir ${p.name}`}><img src={p.image} alt={p.name} loading="lazy" /></a>
-            <div class="rel-tags">{p.tags}</div>
-            <h3 class="rel-title"><a href={p.slug} style="text-decoration:none;color:inherit">{p.name}</a></h3>
-            <div class="rel-price">{p.price}</div>
-            <a class="rel-btn" href={p.stripe} target="_blank" rel="noopener">JE VEUX ACHETER</a>
-          </article>
-        ))}
-      </div>
-    </section>
-
-    <!-- ===== Atouts ===== -->
-    <section class="perks" aria-label="Nos engagements">
-      <div class="perks-grid">
-        <article class="perk">
-          <div class="ico" aria-hidden="true">
-            <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7h11v8H3z"/><path d="M14 10h4l3 3v2h-7V10z"/><circle cx="7" cy="17" r="2"/><circle cx="16" cy="17" r="2"/></svg>
-          </div>
-          <h3>Livraison gratuite</h3>
-          <p>Livraison point relais gratuite dès 70€ d’achat</p>
-        </article>
-        <article class="perk">
-          <div class="ico" aria-hidden="true">
-            <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 12v7H4v-7"/><path d="M4 10h16v2H4z"/><path d="M12 10s-2.5-1.8-2.5-3.5S11 4 12 5c1-1 2.5 0 2.5 1.5S12 10 12 10z"/></svg>
-          </div>
-          <h3>Parfum offert</h3>
-          <p>Dès 100€ d’achat, dans la limite des stocks disponibles</p>
-        </article>
-        <article class="perk">
-          <div class="ico" aria-hidden="true">
-            <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 12a5 5 0 1 0-5-5"/><path d="M3 21a7 7 0 0 1 14 0"/><circle cx="12" cy="7" r="3"/></svg>
-          </div>
-          <h3>Service client 24/24 – 7j/7</h3>
-          <p>Contactez-nous par téléphone ou par mail, à toute heure</p>
-        </article>
-        <article class="perk">
-          <div class="ico" aria-hidden="true">
-            <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l7 4v6c0 5-3.5 9-7 10-3.5-1-7-5-7-10V6l7-4z"/><path d="M9 12l2 2 4-4"/></svg>
-          </div>
-          <h3>Paiements sécurisés</h3>
-          <p>Vos paiements en ligne sont 100% protégés</p>
-        </article>
-      </div>
-    </section>
-  </div> <!-- /wrap -->
-
-  <!-- ========== PIED DE PAGE ========== -->
-  <footer class="site-footer">
-    <div class="footer-grid">
-      <section class="footer-brand">
-        <div class="brand-top">
-          <img
-            class="footer-logo"
-            src="/logo-parfum.png"
-            srcset="/logo-parfum.png 1x, /logo-parfum.png 2x"
-            alt="{SITE_NAME}"
-            width="180"
-            height="45"
-          />
-        </div>
-
-        <div class="brand-bottom">
-          <p class="sub">Maison française de parfums — matières nobles, lignes épurées.</p>
-
-  <div class="socials">
-    <a class="social" href="https://www.instagram.com/itrora_parfums/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="2.8" y="2.8" width="18.4" height="18.4" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.5" cy="6.5" r="1.2"/></svg>
-    </a>
-
-    <a class="social" href="https://www.facebook.com/profile.php?id=61580022094559" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M15 3h-2.2a3.8 3.8 0 0 0-3.8 3.8V9H7v3h2v7h3v-7h2.5l.5-3H12V6.8c0-.44.36-.8.8-.8H15V3z"/></svg>
-    </a>
-
-    <a class="social" href="https://www.tiktok.com/@itrora_parfums?_t=ZN-8zL5BMxvxJe&_r=1" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 3h-2v9.1a3 3 0 1 1-2-2.8V7.6A6 6 0 1 0 17 13V8.7c1 .8 2.2 1.3 3.5 1.5V7.8A5.5 5.5 0 0 1 14 3z"/></svg>
-    </a>
-
-    <a class="social" href="https://t.snapchat.com/jO0R9PnP" target="_blank" rel="noopener noreferrer" aria-label="Snapchat">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 14c-1 2-3 1-3 2s2 1 3 2 1 3 6 3 5-2 6-3 3-1 3-2-2 0-3-2c0-1 1-2 1-4 0-3-2-6-7-6s-7 3-7 6c0 2 1 3 1 4Z"/></svg>
-    </a>
-
-          </section>
-        </section>
-      </div>
-    </div>
-
-          <div class="contact">
-            <p>Colombes (92700)</p>
-            <p><a href="mailto:contact@itrora.com" class="link">contact@itrora.com</a></p>
-            <p><a class="link" href="tel:+33650959363">06 50 95 93 63</a></p>
-          </div>
-        </div>
-      </section>
-
-      <nav class="footer-col" aria-label="Liens rapides">
-        <h4 class="footer-title">Liens rapides</h4>
-        <ul class="footer-list">
-          <li><a href="/">Accueil</a></li>
-          <li><a href="/collections">Les Parfums</a></li>
-        </ul>
-      </nav>
-
-      <nav class="footer-col" aria-label="Informations">
-        <h4 class="footer-title">Informations</h4>
-        <ul class="footer-list">
-          <li><a href="/a-propos">Notre histoire</a></li>
-          <li><a href="/foireauxquestions">FAQ</a></li>
-          <li><a href="/contact">Contact</a></li>
-        </ul>
-      </nav>
-
-      <nav class="footer-col" aria-label="Légal">
-        <h4 class="footer-title">Legal</h4>
-        <ul class="footer-list">
-          <li><a href="/conditions-generales-de-vente">C.G.V</a></li>
-          <li><a href="/mentions-legales">Mentions légales</a></li>
-          <li><a href="/confidentialite">Confidentialité</a></li>
-          <li><a href="/politique-de-cookies">Politique de cookies</a></li>
-        </ul>
-      </nav>
-    </div>
-
-    <div class="footer-bottom">
-      <small>© {new Date().getFullYear()} {SITE_NAME}. Tous droits réservés.</small>
-    </div>
-  </footer>
-
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&display=swap');
-
-    :root{ --ink:#2A2927; --muted:#64706A; --bd:rgba(0,0,0,.08); }
-    .site-footer{ background:#fff; color:var(--ink); padding:3rem 24px 2.5rem; border-top:1px solid var(--bd); margin-top:8px; }
-    .site-footer, .site-footer *{ font-family:"Montserrat",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif !important; }
-    .footer-grid{
-      max-width:1200px; margin:0 auto; display:grid;
-      grid-template-columns: 1.2fr 1fr 1fr 1fr; grid-template-rows: auto 1fr;
-      column-gap: 3rem; row-gap: 1.8rem; align-items: start;
-    }
-    .footer-brand{ display: contents; }
-    .brand-top{ grid-row:1; grid-column:1 / -1; justify-self:center; text-align:center; }
-    .footer-logo{ display:block; height:144px; width:auto; }
-    @media (max-width:1000px){ .footer-logo{ height:112px } }
-    @media (max-width:560px){  .footer-logo{ height:80px } }
-    .brand-bottom{ grid-row:2; grid-column:1 / 2; align-self:start; }
-    .footer-col{ grid-row:2; align-self:start; }
-    .sub{ opacity:.85; margin:.75rem 0 1rem; }
-    .socials{ display:flex; gap:.8rem; margin-top:1rem; }
-    .social{
-      width:48px; height:48px; display:grid; place-items:center; border-radius:50%;
-      background:#f6f5f4; color:var(--ink);
-      box-shadow:inset 0 0 0 1px var(--bd);
-      transition:filter .15s ease, transform .15s ease; text-decoration:none;
-    }
-    .social:hover{ filter:brightness(0.97); transform:translateY(-1px); }
-    .footer-title{ letter-spacing:.18em; text-transform:uppercase; color:var(--muted);
-      font-weight:800; font-size:.9rem; margin:0 0 .9rem; }
-    .footer-list{ margin:0; padding:0; list-style:none; }
-    .footer-list li{ margin:.45rem 0; }
-    .footer-list a{ color:var(--ink); text-decoration:none; opacity:.9; }
-    .footer-list a:hover{ text-decoration:underline; }
-    .contact p{ margin:.35rem 0; }
-    .contact .link{ color:var(--ink); text-decoration:none; }
-    .contact .link:hover{ text-decoration:underline; }
-    .footer-bottom{
-      max-width:1200px; margin:2rem auto 0; padding-top:1rem;
-      display:flex; align-items:center; justify-content:flex-start; gap:1rem;
-      border-top:1px solid var(--bd); color:var(--muted);
-    }
-    @media (max-width:1000px){
-      .footer-grid{ grid-template-columns: 1fr 1fr 1fr; }
-      .brand-bottom{ grid-column: 1 / 4; }
-    }
-    @media (max-width:560px){
-      .footer-grid{ grid-template-columns: 1fr; }
-      .brand-bottom{ grid-column: 1; }
-    }
-  </style>
 </body>
 </html>
