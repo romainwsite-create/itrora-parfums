@@ -12,6 +12,8 @@ const P = {
   notes: { tete: "Amande, Anis", coeur: "Coco", fond: "Vanille, Fève de tonka" },
   bullets: ["Made in France", "Livré en quelques jours"],
   stripe: "https://buy.stripe.com/9B64gz7gN7YydEI6HgbQY01"
+
+
 };
 
 const WHATSAPP_PHONE = "33650959363";
@@ -30,6 +32,13 @@ const RELATED = [
   { slug: "/produits/dragon-rose", name: "Dragon Rose", tags: "FLORALE, FRUITÉE, ROSE", price: "35,00 €", image: "/dragon-rose2.png", stripe: "https://buy.stripe.com/eVqeVd58F7Yy9os3v4bQY02" },
   { slug: "/produits/musc-fruite", name: "Musc Fruité", tags: "FRUITÉ, MUSCÉ", price: "40,00 €", image: "/musc-fruite1.png",  stripe: "https://buy.stripe.com/3cIbJ1gRna6GeIMc1AbQY03"},
 ];
+
+const WEBP_DIR = "/Webp%20itrora";
+const toWebp = (src) => {
+  const file = src.split("/").pop();              // "coco-des-iles2.jpg"
+  return `${WEBP_DIR}/${file.replace(/\.(png|jpe?g)$/i, ".webp")}`;
+};
+
 ---
 
 <html lang="fr">
@@ -242,6 +251,13 @@ const RELATED = [
 }
 
 </style>
+
+<link rel="preload" as="image"
+      href={toWebp(P.image)}
+      imagesrcset={toWebp(P.image)}
+      imagesizes="(max-width:1000px) 100vw, 55vw"
+      fetchpriority="high">
+
 </head>
 
 <body>
@@ -249,7 +265,7 @@ const RELATED = [
   <div class="mini-bar" data-mini-bar aria-hidden="true">
     <div class="mini-wrap">
       <div class="mini-left">
-        <img class="mini-thumb" src={P.image} alt={P.name} />
+<img class="mini-thumb" src={P.image} alt={`${P.name} — miniature du flacon`} />
         <div class="mini-title">{P.name}</div>
         <div class="mini-price">{P.price}</div>
       </div>
@@ -275,29 +291,31 @@ const RELATED = [
       <div class="media">
         <figure class="gallery" data-gallery aria-labelledby="h-galerie">
   <h2 class="sr-only" id="h-galerie">Galerie produit</h2>
-  <div class="gal-main">
-    <img data-main src={IMAGES[0]} alt={`${P.name} — image`} fetchpriority="high" decoding="async" />
-            <button class="g-nav prev" type="button" aria-label="Image précédente" data-prev>
-              <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
-                <path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </button>
-            <button class="g-nav next" type="button" aria-label="Image suivante" data-next>
-              <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
-                <path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </button>
-          </div>
+<div class="gal-main">
+  <picture>
+    <source srcset={toWebp(P.image)} type="image/webp">
+    <img
+      data-main
+      src={P.image}
+      alt={`${P.name} — extrait de parfum 50 ml, vue principale du flacon`}
+      width="1200" height="1500"
+      loading="eager" decoding="async" fetchpriority="high"
+    />
+  </picture>
 
-          <div class="thumbs">
-            {IMAGES.map((src, i) => (
-              <button class={`th ${i===0 ? "is-active" : ""}`} data-th={i} aria-label={`Voir image ${i+1}`}>
-                <img src={src} alt="" loading="lazy" />
-              </button>
-            ))}
-          </div>
-        </figure>
-      </div>
+  <button class="g-nav prev" type="button" aria-label="Image précédente" data-prev>…</button>
+  <button class="g-nav next" type="button" aria-label="Image suivante" data-next>…</button>
+</div>
+<div class="thumbs">
+  {IMAGES.map((src, i) => (
+    <button class={`th ${i===0 ? "is-active" : ""}`} data-th={i} aria-label={`Voir image ${i+1}`}>
+      <picture>
+        <source srcset={toWebp(src)} type="image/webp">
+        <img src={src} alt="" aria-hidden="true" role="presentation" loading="lazy" decoding="async" />
+      </picture>
+    </button>
+  ))}
+</div>
 
       <!-- Détails produit -->
       <div class="content">
@@ -328,19 +346,35 @@ const RELATED = [
 
 <section class="features" aria-labelledby="h-features">
   <h2 class="sr-only" id="h-features">Caractéristiques</h2>
+<article class="f-card">
+  <h3 class="f-title">Des parfums qui durent</h3>
+  <picture>
+    <source srcset="/Webp%20itrora/teneur.webp" type="image/webp" />
+    <img
+      class="f-img"
+      src="/teneur.png"
+      alt="Longue tenue — extrait de parfum Itrora, plus de 8h"
+      loading="lazy"
+      decoding="async"
+    />
+  </picture>
+  <p class="f-text">Nos produits sont des extraits de parfums. Une noble concentration, pure et faite pour durer <strong>plus de 8h</strong>.</p>
+</article>
 
-  <article class="f-card">
-    <h3 class="f-title">Des parfums qui durent</h3>
-    <img class="f-img" src="/teneur.png" alt="Longue tenue" loading="lazy" />
-    <p class="f-text">Nos produits sont des extraits de parfums. Une noble concentration, pure et faite pour durer <strong>plus de 8h</strong>.</p>
-  </article>
-
-  <article class="f-card">
-    <h3 class="f-title">Une vaporisation dernier cri</h3>
-    <img class="f-img" src="/vaporisation.png" alt="Vaporisation haute précision" loading="lazy" />
-    <p class="f-text">Chaque flacon est équipé d’un brumisateur dernière génération qui offre une expérience sensorielle unique.</p>
-  </article>
-</section>
+<article class="f-card">
+  <h3 class="f-title">Une vaporisation dernier cri</h3>
+  <picture>
+    <source srcset="/Webp%20itrora/vaporisation.webp" type="image/webp" />
+    <img
+      class="f-img"
+      src="/vaporisation.png"
+      alt="Flacon Itrora avec brumisateur de haute précision"
+      loading="lazy"
+      decoding="async"
+    />
+  </picture>
+  <p class="f-text">Chaque flacon est équipé d’un brumisateur dernière génération qui offre une expérience sensorielle unique.</p>
+</article>
 
   <div class="socials">
     <a class="social" href="https://www.instagram.com/itrora_parfums/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
@@ -387,20 +421,33 @@ const RELATED = [
 </section>
 
     <!-- ===== Produits similaires ===== -->
- <section class="related" aria-labelledby="h-related">
+<section class="related" aria-labelledby="h-related">
   <h2 id="h-related">Produits similaires</h2>
-      <div class="rel-grid">
-        {RELATED.map((p) => (
-          <article class="rel-card">
-            <a class="rel-media" href={p.slug} aria-label={`Voir ${p.name}`}><img src={p.image} alt={p.name} loading="lazy" /></a>
-            <div class="rel-tags">{p.tags}</div>
-            <h3 class="rel-title"><a href={p.slug} style="text-decoration:none;color:inherit">{p.name}</a></h3>
-            <div class="rel-price">{p.price}</div>
-            <a class="rel-btn" href={p.stripe} target="_blank" rel="noopener">JE VEUX ACHETER</a>
-          </article>
-        ))}
-      </div>
-    </section>
+  <div class="rel-grid">
+    {RELATED.map((p) => (
+      <article class="rel-card">
+        <a class="rel-media" href={p.slug} aria-label={`Voir ${p.name}`}>
+          <picture>
+            <source srcset={toWebp(p.image)} type="image/webp" />
+            <img
+              src={p.image}
+              alt={`${p.name} — extrait de parfum`}
+              loading="lazy"
+              decoding="async"
+            />
+          </picture>
+        </a>
+        <div class="rel-tags">{p.tags}</div>
+        <h3 class="rel-title">
+          <a href={p.slug} style="text-decoration:none;color:inherit">{p.name}</a>
+        </h3>
+        <div class="rel-price">{p.price}</div>
+        <a class="rel-btn" href={p.stripe} target="_blank" rel="noopener">JE VEUX ACHETER</a>
+      </article>
+    ))}
+  </div>
+</section>
+
 
     <!-- ===== Atouts ===== -->
 <section class="perks" aria-labelledby="h-perks">
@@ -443,14 +490,15 @@ const RELATED = [
     <div class="footer-grid">
       <section class="footer-brand">
         <div class="brand-top">
-          <img
-            class="footer-logo"
-            src="/logo-parfum.png"
-            srcset="/logo-parfum.png 1x, /logo-parfum.png 2x"
-            alt="{SITE_NAME}"
-            width="180"
-            height="45"
-          />
+<img
+  class="footer-logo"
+  src="/logo-parfum.png"
+  srcset="/logo-parfum.png 1x, /logo-parfum.png 2x"
+  alt="Itrora Parfums — logo"
+  width="180"
+  height="45"
+/>
+
         </div>
 
         <div class="brand-bottom">
@@ -517,29 +565,40 @@ const RELATED = [
   </footer>
 
   <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    /* ====== GALERIE ====== */
-    const gal = document.querySelector("[data-gallery]");
-    if (gal) {
-      const mainImg = gal.querySelector("[data-main]");
-      const thumbs = Array.from(gal.querySelectorAll("[data-th]"));
-      const prev = gal.querySelector("[data-prev]");
-      const next = gal.querySelector("[data-next]");
+document.addEventListener("DOMContentLoaded", () => {
+  const gal = document.querySelector("[data-gallery]");
+  if (!gal) return;
 
-      let index = thumbs.findIndex(b => b.classList.contains("is-active"));
-      if (index < 0) index = 0;
+  const pictureMain = gal.querySelector(".gal-main picture");
+  const sourceMain  = pictureMain?.querySelector('source[type="image/webp"]');
+  const imgMain     = pictureMain?.querySelector("img");
+  const thumbs      = Array.from(gal.querySelectorAll("[data-th]"));
+  const prev        = gal.querySelector("[data-prev]");
+  const next        = gal.querySelector("[data-next]");
 
-      const setActive = (i) => {
-        index = (i + thumbs.length) % thumbs.length;
-        thumbs.forEach((b, k) => b.classList.toggle("is-active", k === index));
-        const img = thumbs[index].querySelector("img");
-        if (img && mainImg) mainImg.src = img.src;
-      };
+  let index = Math.max(0, thumbs.findIndex(b => b.classList.contains("is-active")));
 
-      thumbs.forEach((btn, i) => btn.addEventListener("click", () => setActive(i)));
-      if (prev) prev.addEventListener("click", () => setActive(index - 1));
-      if (next) next.addEventListener("click", () => setActive(index + 1));
-    }
+  const toWebp = (src) => {
+    const file = src.split("/").pop();
+    return `/Webp%20itrora/${file.replace(/\.(png|jpe?g)$/i, ".webp")}`;
+  };
+
+  const setActive = (i) => {
+    index = (i + thumbs.length) % thumbs.length;
+    thumbs.forEach((b, k) => b.classList.toggle("is-active", k === index));
+
+    const thumbImg = thumbs[index].querySelector("img");
+    if (!thumbImg || !imgMain) return;
+
+    // maj <source> (webp) + <img> (fallback)
+    if (sourceMain) sourceMain.setAttribute("srcset", toWebp(thumbImg.src));
+    imgMain.src = thumbImg.src;
+  };
+
+  thumbs.forEach((btn, i) => btn.addEventListener("click", () => setActive(i)));
+  prev?.addEventListener("click", () => setActive(index - 1));
+  next?.addEventListener("click", () => setActive(index + 1));
+});
 
 /* ====== ONGLETS ====== */
 const tabsRoot = document.querySelector("[data-tabs]");
